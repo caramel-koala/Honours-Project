@@ -13,10 +13,13 @@ def vor_merge(a,b):
         return a
     
     #get source points from a and b
-    p_a = a[:][0]
-    p_b = b[:][0]
-    
-    
+    print(a)
+    p_a = []
+    for i in a:
+        p_a.append([i[0][0],i[0][1]])
+    print(p_a)
+    from scipy.spatial import ConvexHull
+    hull_a = ConvexHull(p_a)
     
     return 0
     

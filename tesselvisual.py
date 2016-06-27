@@ -16,8 +16,8 @@ def tesselvisual(arr_cells, arr_obj):
         centres.append(cell[0])
         poly = Polygon(cell[1:],True)
         polys.append(poly)
-        for v in range(1,len(cell)):
-            vert.append(cell[v])
+        #for v in range(1,len(cell)):
+        #    vert.append(cell[v])
     
     ##Generate base voronoi diagram
     #vor = Voronoi(centres)
@@ -36,8 +36,8 @@ def tesselvisual(arr_cells, arr_obj):
     
     ax.add_collection(p)
     
-    for v in vert:
-        plt.scatter(v[0],v[1],c='r')
+    #for v in vert:
+    #    plt.scatter(v[0],v[1],c='r')
     
     for c in centres:
          plt.scatter(c[0],c[1],c='b',marker='+',s=100)

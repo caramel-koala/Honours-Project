@@ -1,5 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jun 27 14:17:07 2016
+
+@author: Caramel Koala
+"""
+
 def source_gen(stellar, threshold):
-    source = []   
+    source = [] 
     for i in stellar:
         if i[2] > threshold:
             source.append(i)

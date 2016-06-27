@@ -7,7 +7,7 @@ def vorgen(source,space):
     
     #end node case: return the point with the entire space as its polygon.
     if len(source) == 1:
-        return [[source,space]]
+        return [[source[0],space]]
     
     #split the list of points into two for recusrsive voronoi.
     left = source[:len(source)/2]
