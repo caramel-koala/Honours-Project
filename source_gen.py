@@ -12,6 +12,6 @@ def source_gen(stellar, threshold):
             source.append(i)
 
     #source list sorted in x-axis
-    source.sort(key=lambda x: x[0])
+    #source.sort(key=lambda x: x[0])
     
     return source
