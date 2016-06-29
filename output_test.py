@@ -16,7 +16,7 @@ for i in range(50):
     stellars.append([np.random.random()*6,np.random.random()*6,10000*(np.random.normal(0,0.1)**2)])
 
 #objects above the threshold seleected
-source = sg.source_gen(stellars,200)
+source = sg.source_gen(stellars,300)
 
 #generate the initial grid space
 plane = [[0,0],[0,6],[6,6],[6,0]]

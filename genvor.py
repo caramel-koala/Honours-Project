@@ -5,13 +5,18 @@ Created on Mon Jun 27 15:15:19 2016
 @author: Caramel Koala
 """
 import ldistance as ld
+import numpy as np
 ###############################################################################
 def genvor(source,plane):
-    cells = []
-    for s in source:
-        cells.append(gen_cell(s,source,plane))
-###############################################################################       
-
+    if len(source) == 1:
+        return [source.append(plane)]
+    elif len(source) == 0:
+        return [[[0,0],plane]]
+    else:
+        cells = []
+        for s in source:
+            cells.append(gen_cell(s,source,plane))
+        return cells
 ############################################################################### 
 def gen_cell(x,source,plane):
     #generate list relations between x and other points
@@ -24,7 +29,7 @@ def gen_cell(x,source,plane):
             continue
         #get perpendicular bisector
         m = -1/(x[1]-s[1])/(x[0]-s[0])
-        d = [m,get_midline(x,s,m,plane)]
+        d = get_midline(x,s,m,plane)
         #find nearest neighbour
         if ld.l2_dist(x,s) < nn[0]:
             nn = [ld.l2_dist(x,s),d]
@@ -32,19 +37,6 @@ def gen_cell(x,source,plane):
         midx.append(d)
 
     return [x].append(gen_cycle(nn[1],midx,plane))   
-    
-###############################################################################             
-        
-###############################################################################         
-def get_mc(x,s):
-    #m = (y_2- y_1)/(x_2-x_1)
-    m = (x[1]-s[1])/(x[0]-s[0])
-    #y=mx+c <=> c=y-mx
-    c = x[1]-m*x[0]
-    
-    return [m,c]
-############################################################################### 
-    
 ############################################################################### 
 def get_midline(o,s,m,plane):
     
@@ -70,12 +62,42 @@ def get_midline(o,s,m,plane):
     #check within boundaires if too many points
     inter = [i for i in inter if i[0]>=xd[0] and i[0]<=xd[1] and i[1]>=yd[0] and i[1]<=yd[1]]
     
-    return inter
+    return [[x,y],inter]
 ###############################################################################
-    
-###############################################################################
-def gen_cycle(nn,midx,plane):
+def gen_cycle(n,midx,plane):
+    #initiate polygon vertex array
     cycle = []
     
-    
+    #set the starting edge to the nearest neigbours edge
+    l1 = [n[0],n[1][0]]
+    closest = [99999]
+    #find the closest intercept to one half of the nearest neighbour edge split by the closest point
+    for m in midx:
+        l2 = line_intersection(l1,m[1])
+        dist = np.sqrt((l1[0][1]-l2[1])**2 + (l1[0][0]-l2[0])**2)
+        if dist < closest[0]:
+            closest = [dist,l2,m]
+    #check if the plane intercepts are closer
+    for p in range(len(plane)):
+        l2 = line_intersection(l1,[plane[p%4],plane[(p+1)%4]])
+        dist = np.sqrt((l1[0][1]-l2[1])**2 + (l1[0][0]-l2[0])**2)
+        if dist < closest[0]:
+            closest = [dist,l2,m]
+        
+###############################################################################
+def line_intersection(line1, line2):
+    xdiff = [line1[0][0] - line1[1][0], line2[0][0] - line2[1][0]]
+    ydiff = [line1[0][1] - line1[1][1], line2[0][1] - line2[1][1]]
+
+    def det(a, b):
+        return a[0] * b[1] - a[1] * b[0]
+
+    div = det(xdiff, ydiff)
+    if div == 0:
+       return[9999,9999]
+
+    d = [det(*line1), det(*line2)]
+    x = det(d, xdiff) / div
+    y = det(d, ydiff) / div
+    return [x, y]
 ###############################################################################
