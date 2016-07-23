@@ -30,7 +30,7 @@ class ConvexHull:
         for i in range(((range_points[1])+1)-2,range_points[0]-1,-1):
             while m >= t and ConvexHull.cross(self.CH[m-2],self.CH[m-1],self.vd.parent.points[i]) <= 0:
                 m = m-1
-            self.CH[m] = self.vd.parent.points[i]
+            self.CH[m] = points[i]
             m = m+1
         m = m-1
         #print m

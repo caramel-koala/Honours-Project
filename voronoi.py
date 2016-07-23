@@ -124,5 +124,5 @@ def Voronoi(points,range_points,tangent):
         VDL = Voronoi(points,(range_points[0],mid),tangent)
         VDR = Voronoi(points,(mid+1,range_points[1]),tangent)
     
-        merge_vd = VD.merge(VDL,VDR,tangent)
+        merge_vd = VD.merge(VDL,VDR,tangent,points)
         return merge_vd

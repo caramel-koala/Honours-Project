@@ -18,7 +18,7 @@ class VD:
         self.pos = None
         self.other = None
     @staticmethod
-    def merge(VDL,VDR,tangent):
+    def merge(VDL,VDR,tangent,points):
 
         clip_lines = []
         #used to record ray which intersect with dividing chain
@@ -116,7 +116,7 @@ class VD:
                                 ans = t
             return ans
 
-        upper_tangent,lower_tangent = VD.find_tangent(VDL,VDR)
+        upper_tangent,lower_tangent = VD.find_tangent(VDL,VDR,points)
         ul = (upper_tangent,lower_tangent)
         tangent[0].append(ul)
 
@@ -314,9 +314,9 @@ class VD:
         #return VD(lines,points)
 
     @staticmethod
-    def find_tangent(VDL,VDR):
-        pl = VDL.parent.points[VDL.range_points[1]]
-        pr = VDR.parent.points[VDR.range_points[0]]
+    def find_tangent(VDL,VDR,points):
+        pl = points[VDL.range_points[1]]
+        pr = points[VDR.range_points[0]]
 
         #handle collinear point
         while not (VD.isupper_tangent(pl,pr,'left') and VD.isupper_tangent(pl,pr,'right')):
@@ -329,8 +329,8 @@ class VD:
 
         #VDL.parent.msg = VDL.parent.msg + 'upper_tangent = '+upper_tangent.p1.display+' '+upper_tangent.p2.display+'\n'
 
-        pl = VDL.parent.points[VDL.range_points[1]]
-        pr = VDR.parent.points[VDR.range_points[0]]
+        pl = points[VDL.range_points[1]]
+        pr = points[VDR.range_points[0]]
 
         while not (VD.islower_tangent(pl,pr,'left') and VD.islower_tangent(pl,pr,'right')):
             while not VD.islower_tangent(pl,pr,'left'):

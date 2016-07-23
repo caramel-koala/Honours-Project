@@ -8,7 +8,7 @@ Created on Wed Apr 27 14:30:58 2016
 import numpy as np
 import voronoi as vor
 import source_gen as sg
-import tesselvisual as tv
+#import tesselvisual as tv
 from shape import Point
 #generate list of galaxies
 stellars = []
@@ -26,4 +26,4 @@ tangent = [[],0]
 cells = vor.Voronoi(source, (0,len(source)-1),tangent)
         
 #plot results
-tv.tesselvisual(cells,source)
+#tv.tesselvisual(cells,source)
