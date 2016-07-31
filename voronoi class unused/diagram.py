@@ -4,22 +4,21 @@ from shape import Line,Point
 from ch import ConvexHull
 from collections import defaultdict
 from pointToLine import pair
-import copy
 
 class VD:
-    def __init__(self,lines,range_points,parent = None,convex = None):
+    def __init__(self,lines,range_points,points,parent = None,convex = None):
         self.parent = parent
         self.lines = lines
         self.range_points = range_points
         if convex is None:
-            self.convex = self.find_convex()
+            self.convex = self.find_convex(points)
         else:
             self.convex = convex
         self.color = None
         self.pos = None
         self.other = None
     @staticmethod
-    def merge(VDL,VDR,tangent):
+    def merge(VDL,VDR,tangent,points):
 
         clip_lines = []
         #used to record ray which intersect with dividing chain
@@ -117,7 +116,7 @@ class VD:
                                 ans = t
             return ans
 
-        upper_tangent,lower_tangent = VD.find_tangent(VDL,VDR)
+        upper_tangent,lower_tangent = VD.find_tangent(VDL,VDR,points)
         ul = (upper_tangent,lower_tangent)
         tangent[0].append(ul)
 
@@ -315,9 +314,9 @@ class VD:
         #return VD(lines,points)
 
     @staticmethod
-    def find_tangent(VDL,VDR):
-        pl = VDL.parent.points[VDL.range_points[1]]
-        pr = VDR.parent.points[VDR.range_points[0]]
+    def find_tangent(VDL,VDR,points):
+        pl = points[VDL.range_points[1]]
+        pr = points[VDR.range_points[0]]
 
         #handle collinear point
         while not (VD.isupper_tangent(pl,pr,'left') and VD.isupper_tangent(pl,pr,'right')):
@@ -330,8 +329,8 @@ class VD:
 
         #VDL.parent.msg = VDL.parent.msg + 'upper_tangent = '+upper_tangent.p1.display+' '+upper_tangent.p2.display+'\n'
 
-        pl = VDL.parent.points[VDL.range_points[1]]
-        pr = VDR.parent.points[VDR.range_points[0]]
+        pl = points[VDL.range_points[1]]
+        pr = points[VDR.range_points[0]]
 
         while not (VD.islower_tangent(pl,pr,'left') and VD.islower_tangent(pl,pr,'right')):
             while not VD.islower_tangent(pl,pr,'left'):
@@ -347,8 +346,8 @@ class VD:
 
         return (upper_tangent,lower_tangent)
 
-    def find_convex(self):
-        return ConvexHull(self).Andrew_monotone_chain(self.range_points)
+    def find_convex(self,points):
+        return ConvexHull(self).Andrew_monotone_chain(self.range_points,points)
 
     @staticmethod
     def isupper_tangent(pl,pr,pos):

@@ -3,9 +3,10 @@
 #Name: Ming-Hsuan Tu
 from __future__ import division
 class Point:
-    def __init__(self,x,y):
+    def __init__(self,x,y,z):
         self.x = x
         self.y = y
+        self.z = z
 
         self.iscircumcenter = False
 
@@ -17,13 +18,13 @@ class Point:
     def __repr__(self):
         return str((int(self.x)))+" "+str((int(self.y)))
     def __add__(self,other):
-        return Point(self.x+other.x,self.y+other.y)
+        return Point(self.x+other.x,self.y+other.y,self.z)
     def __sub__(self,other):
-        return Point(self.x-other.x,self.y-other.y)
+        return Point(self.x-other.x,self.y-other.y,self.z)
     def __truediv__(self,other):
-        return Point(self.x/other,self.y/other)
+        return Point(self.x/other,self.y/other,self.z)
     def __mul__(self,other):
-        return Point(self.x*other,self.y*other)
+        return Point(self.x*other,self.y*other,self.z)
     def __eq__(self,other):
         if not isinstance(other,Point):
             return False
@@ -33,7 +34,7 @@ class Point:
             return self.y>other.y
         return self.x>other.x
     def __hash__(self):
-        return int(41*(41+self.x)+self.y)
+        return 41*(41+self.x)+self.y
 
 class Line:
     def __init__(self,p1,p2):
@@ -139,9 +140,9 @@ class vector:
     def __init__(self,p1,p2):
         self.p1 = p1
         self.p2 = p2
-        self.v = p2-p1
+        self.v = (p2.x-p1.x,p2.y-p1.y)
         self.nv = self.normal_vector()
     def normal_vector(self):
-        x,y = self.v.y,self.v.x
+        x,y = self.v[1],self.v[0]
         x = x*-1
-        return Point(x,y)
+        return Point(x,y,1)

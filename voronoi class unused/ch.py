@@ -17,20 +17,20 @@ class ConvexHull:
             self.CH[i].cw = self.CH[(i+1)%self.length]
             self.vertex.append(self.CH[i])
 
-    def Andrew_monotone_chain(self,range_points):
+    def Andrew_monotone_chain(self,range_points,points):
         self.CH = self.CH*(range_points[1]-range_points[0]+1)*2
         m=0
         for i in range(range_points[0],range_points[1]+1):
             while m >= 2 and ConvexHull.cross(self.CH[m-2],self.CH[m-1],self.vd.parent.points[i]) <= 0:
                 m = m-1
-            self.CH[m] = self.vd.parent.points[i]
+            self.CH[m] = points[i]
             m = m+1
 
         t = m+1
         for i in range(((range_points[1])+1)-2,range_points[0]-1,-1):
             while m >= t and ConvexHull.cross(self.CH[m-2],self.CH[m-1],self.vd.parent.points[i]) <= 0:
                 m = m-1
-            self.CH[m] = self.vd.parent.points[i]
+            self.CH[m] = points[i]
             m = m+1
         m = m-1
         #print m
