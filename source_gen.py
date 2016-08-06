@@ -8,7 +8,7 @@ Created on Mon Jun 27 14:17:07 2016
 def source_gen(stellar, threshold):
     source = [] 
     for i in stellar:
-        if i.z > threshold:
+        if i[2] > threshold:
             source.append(i)
 
     #source list sorted in x-axis

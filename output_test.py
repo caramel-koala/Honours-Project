@@ -6,30 +6,27 @@ Created on Wed Apr 27 14:30:58 2016
 """
 
 import numpy as np
-import layout as lay
-from operator import attrgetter
+import DACVoronoi as DV
 #import source_gen as sg
 #import tesselvisual as tv
-from shape import Point
 
 
 #generate list of galaxies
 stellars = []
 for i in range(50):
-    stellars.append(Point(int(np.random.random()*610),int(np.random.random()*610)))#,10000*(np.random.normal(0,0.1)**2)))
+    stellars.append([int(np.random.random()*610),int(np.random.random()*610)])#,10000*(np.random.normal(0,0.1)**2)))
 
 #objects above the threshold seleected
 #source = sg.source_gen(stellars,300)
 
 #sort objects by x-axis
-stellars.sort(key=attrgetter('x','y'))
+stellars.sort(key=lambda x: (x[0],x[1]))
 
-#generate the voronoi space
-vor = lay.VoronoiSpace(stellars)
+#create space for voronoi to fill
+space = [(0,0),(0,610),(610,610),(610,0)]
 
-#genetate the voronoi cells
-cells = vor.Voronoi((0,len(stellars)-1))
-
+#generate the voronoi 
+DV.DACVoronoi(stellars,space)
 
         
 #plot results
