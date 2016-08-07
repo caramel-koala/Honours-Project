@@ -8,7 +8,7 @@ Created on Wed Apr 27 14:30:58 2016
 import numpy as np
 import DACVoronoi as DV
 #import source_gen as sg
-#import tesselvisual as tv
+import tesselvisual as tv
 
 
 #generate list of galaxies
@@ -23,11 +23,11 @@ for i in range(50):
 stellars.sort(key=lambda x: (x[0],x[1]))
 
 #create space for voronoi to fill
-space = [(0,0),(0,610),(610,610),(610,0)]
+space = [[0,0],[0,610],[610,610],[610,0]]
 
 #generate the voronoi 
-DV.DACVoronoi(stellars,space)
+cells = DV.DACVoronoi(stellars,space)
 
         
 #plot results
-#tv.tesselvisual(cells,source)
+tv.tesselvisual(cells,stellars)

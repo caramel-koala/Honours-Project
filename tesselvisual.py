@@ -14,7 +14,7 @@ def tesselvisual(arr_cells, arr_obj):
     polys = []
     for cell in arr_cells:
         centres.append(cell[0])
-        poly = Polygon(cell[1:],True)
+        poly = Polygon(cell[1],True)
         polys.append(poly)
         #for v in range(1,len(cell)):
         #    vert.append(cell[v])
@@ -43,7 +43,7 @@ def tesselvisual(arr_cells, arr_obj):
          plt.scatter(c[0],c[1],c='b',marker='+',s=100)
          
     for G in arr_obj:
-        plt.scatter(G[0],G[1],c='g',s=10*np.log2(G[2]))
+        plt.scatter(G[0],G[1],c='g',)#s=10*np.log2(G[2]))
     
     plt.show
     return
