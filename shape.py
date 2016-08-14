@@ -15,7 +15,7 @@ class Point:
         self.related = []
 
     def __repr__(self):
-        return str((int(self.x)))+" "+str((int(self.y)))
+        return str((float(self.x)))+" "+str((float(self.y)))
     def __add__(self,other):
         return Point(self.x+other.x,self.y+other.y)
     def __sub__(self,other):

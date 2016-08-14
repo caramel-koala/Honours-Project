@@ -9,8 +9,7 @@ from pointToLine import pair
 
 
 class VoronoiSpace:
-    edge_painter = (Line(Point(0,0),Point(610,0)),Line(Point(0,0),Point(0,610)),Line(Point(610,0),Point(610,610)),Line(Point(0,610),Point(610,610)))
-    def __init__(self,points,parent = None):
+    def __init__(self,points,space,parent = None):
         self.parent = parent
         self.points = []
         #used to output original points include duplicate
@@ -23,6 +22,7 @@ class VoronoiSpace:
         self.debug_message = [[],0]
         self.msg = ""
         self.vertex = []
+        self.edge_painter = space
         
         for p in points:
             self._points.append(p)

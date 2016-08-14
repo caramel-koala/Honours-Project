@@ -20,10 +20,10 @@ def DACVoronoi(points,space):
         right   = DACVoronoi(points[mid:len(points)],space)
         
         #return merged voronoi
-        return  merge(left,right)
+        return  merge(left,right,space)
 ###############################################################################
 #merge algorithm for joining voronois
-def merge(left,right):
+def merge(left,right,space):
     #get the convex hull of left
     if len(left)>3:
         lhull   = convex_hull(left)
@@ -36,9 +36,9 @@ def merge(left,right):
         rhull   = right
         
     #find lowest common support line    
-    LCS = find_LCS(lhull,rhull)
+    LCS = find_LCS(lhull,rhull,space)
     
-    return left+right
+    return LCS
     
 ###############################################################################    
 #Calculate biisector
@@ -49,15 +49,25 @@ def biSector(p1,p2):
 ###############################################################################
 #get convex hull of cells
 def convex_hull(cells):
-    cen    = []
+    cen     = []
     for cell in cells: cen.append([cell[0][0],cell[0][1]])
-    hullt  = ConvexHull(cen).points
-    hull   = []
-    for cell in cells:
-        for point in hullt:
-            if point[0] == cell[0][0] and point[1] == cell[0][1]:
-                hull.append(cell)
+    hullt   = list(ConvexHull(cen).simplices)
+    hull    = []
+    line    = hullt[0]
+    hull.append(cells[line[0]])
+    del hullt[0]
+    while not len(hullt) == 0:
+        join    = line[1]
+        for i,l in enumerate(hullt):
+            if l[0] == join:
+                line = l
+                del hullt[i]
                 break
+            if l[1] == join:
+                line = [l[1],l[0]]
+                del hullt[i]
+                break
+        hull.append(cells[line[0]])
     return hull
 ###############################################################################
 #find the intercept of two hulls
@@ -68,14 +78,18 @@ def hull_intercept(po,pa,pb):
 #gives our merge a starting point at the bottom
 def find_LCS(lpoly,rpoly):
     
+    #find the rightmost left point
     u = lpoly[0]
     for cell in lpoly:
         if cell[0][0] > u[0][0]:
             u = cell
-            
+    #find the leftmost right point        
     v = rpoly[0]      
     for cell in rpoly:
         if cell[0][0] < v[0][0]:
             v = cell
-            
+    #find LCS (lowest bisector of hulls)       
+    L   = 
+     
+    return lpoly+rpoly
     

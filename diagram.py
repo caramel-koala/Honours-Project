@@ -4,7 +4,6 @@ from shape import Line,Point
 from ch import ConvexHull
 from collections import defaultdict
 from pointToLine import pair
-import copy
 
 class VD:
     def __init__(self,lines,range_points,parent = None,convex = None):
@@ -24,7 +23,7 @@ class VD:
         clip_lines = []
         #used to record ray which intersect with dividing chain
         #using hash table
-        ray_list = set()
+        ray_list = []
         def discard_edges(ray,circumcenter,side,SG_bisector):
 
             def recursive_discard_edge(ray,other_point,base_point,side):
@@ -213,12 +212,13 @@ class VD:
                     ray.hole = circumcenter
                     t = (ray,SG_bisector,side,circumcenter)
                     if ray not in ray_list:
-                        ray_list.add(ray)
+                        ray_list.append(ray)
                     clip_lines.append(t)
                 else:
                     for r in ray:
                         r.hole = circumcenter
-                        ray_list.add(r)
+                        if r not in ray_list:
+                            ray_list.append(r)
                     t = (ray,SG_bisector,side,circumcenter)
                     clip_lines.append(t)
 
