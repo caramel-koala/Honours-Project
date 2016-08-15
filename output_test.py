@@ -18,7 +18,7 @@ planesize = [600,600]
 
 #generate list of galaxies
 stellars = []
-for i in range(100):
+for i in range(500):
     stellars.append(Point(np.random.random()*planesize[0],np.random.random()*planesize[1]))#,10000*(np.random.normal(0,0.1)**2)))
 
 #objects above the threshold seleected
