@@ -47,7 +47,7 @@ def edgecell(eps,lines,size):
         return centercell(lines)
     else:
         #means it is a corner piece and a corner must be put in.
-        if p1.x == 0 or p1.x == size[0]:
+        if nearly_equal(p1.x,0) or nearly_equal(p1.x,size[0]):
             p   = Point(p1.x,p2.y)
         else:
             p   = Point(p2.x,p1.y)
@@ -137,10 +137,17 @@ def getintercept(l1,l2):
         return Point(l1.p1.x + (t * s1_x), l1.p1.y + (t * s1_y))
     else:
         return 0
-        
+
+#converts list of points to a list of lists      
 def depointify(points):
     results = []
     for point in points:
         results.append([point.x,point.y])
         
     return results
+
+#checks if two numbers are approximately equal    
+def nearly_equal(a,b,sig_fig=5):
+    return ( a==b or 
+             int(a*10**sig_fig) == int(b*10**sig_fig)
+           )

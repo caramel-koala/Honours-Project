@@ -10,15 +10,15 @@ import layout as lay
 #import source_gen as sg
 from operator import attrgetter
 import tesselvisual as tv
-from shape import *
-from gen_cells import *
+from shape import Point, Line
+import gen_cells as gc
 
 #define the size of the plane for generality
 planesize = [600,600]
 
 #generate list of galaxies
 stellars = []
-for i in range(500):
+for i in range(100):
     stellars.append(Point(np.random.random()*planesize[0],np.random.random()*planesize[1]))#,10000*(np.random.normal(0,0.1)**2)))
 
 #objects above the threshold seleected
@@ -34,7 +34,7 @@ space = (Line(Point(0,0),Point(planesize[0],0)),Line(Point(0,0),Point(0,planesiz
 vorspace = lay.VoronoiSpace(stellars,space)
 vorspace.Voronoi((0,len(stellars)-1))
 
-cells = gen_cells(vorspace,planesize)
+cells = gc.gen_cells(vorspace,planesize)
 
 #plot results
 tv.tesselvisual(cells,stellars)
