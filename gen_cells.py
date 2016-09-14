@@ -48,9 +48,9 @@ def edgecell(eps,lines,size):
     else:
         #means it is a corner piece and a corner must be put in.
         if nearly_equal(p1.x,0) or nearly_equal(p1.x,size[0]):
-            p   = Point(p1.x,p2.y)
+            p   = Point(p1.x,p2.y,0)
         else:
-            p   = Point(p2.x,p1.y)
+            p   = Point(p2.x,p1.y,0)
         lines.append(eps[0])
         lines.append(eps[1])
         lines.append(Line(p,p1))
@@ -134,7 +134,7 @@ def getintercept(l1,l2):
 
     #check for intercept and returns it
     if (s >= 0 and s <= 1 and t >= 0 and t <= 1):
-        return Point(l1.p1.x + (t * s1_x), l1.p1.y + (t * s1_y))
+        return Point(l1.p1.x + (t * s1_x), l1.p1.y + (t * s1_y), 0)
     else:
         return 0
 

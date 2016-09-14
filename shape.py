@@ -2,10 +2,41 @@
 #Designer:
 #Name: Ming-Hsuan Tu
 from __future__ import division
-class Point:
-    def __init__(self,x,y):
+
+class Source:
+    def __init__(self,x,y,z):
         self.x = x
         self.y = y
+        self.z = z
+        
+    def __repr__(self):
+        return str((float(self.x)))+" "+str((float(self.y)))+" "+str((float(self.z)))
+    def __add__(self,other):
+        return Source(self.x+other.x,self.y+other.y,self.z+other.z)
+    def __sub__(self,other):
+        return Source(self.x-other.x,self.y-other.y,self.z-other.z)
+    def __truediv__(self,other):
+        return Source(self.x/other,self.y/other,self.z/other)
+    def __mul__(self,other):
+        return Source(self.x*other,self.y*other,self.z*other)
+    def __eq__(self,other):
+        if not isinstance(other,Source):
+            return False
+        return (self.x == other.x and self.y == other.y and self.z == other.z) or (self is other)
+    def __gt__(self,other):
+        if self.x == other.x:
+            if self.y == other.y:
+                return self.z>other.z        
+            return self.y>other.y
+        return self.x>other.x
+    def __hash__(self):
+        return int(41*(41+self.x)+self.y)    
+
+class Point:
+    def __init__(self,x,y,z):
+        self.x = x
+        self.y = y
+        self.z = z
 
         self.iscircumcenter = False
 
@@ -14,22 +45,28 @@ class Point:
 
         self.related = []
 
+
+        self.sources = []   
+        self.error = 0
+        
     def __repr__(self):
-        return str((float(self.x)))+" "+str((float(self.y)))
+        return str((float(self.x)))+" "+str((float(self.y)))+" "+str((float(self.z)))
     def __add__(self,other):
-        return Point(self.x+other.x,self.y+other.y)
+        return Point(self.x+other.x,self.y+other.y,self.z+other.z)
     def __sub__(self,other):
-        return Point(self.x-other.x,self.y-other.y)
+        return Point(self.x-other.x,self.y-other.y,self.z-other.z)
     def __truediv__(self,other):
-        return Point(self.x/other,self.y/other)
+        return Point(self.x/other,self.y/other,self.z/other)
     def __mul__(self,other):
-        return Point(self.x*other,self.y*other)
+        return Point(self.x*other,self.y*other,self.z*other)
     def __eq__(self,other):
         if not isinstance(other,Point):
             return False
-        return (self.x == other.x and self.y == other.y) or (self is other)
+        return (self.x == other.x and self.y == other.y and self.z == other.z) or (self is other)
     def __gt__(self,other):
         if self.x == other.x:
+            if self.y == other.y:
+                return self.z>other.z        
             return self.y>other.y
         return self.x>other.x
     def __hash__(self):
@@ -83,7 +120,7 @@ class Line:
             if t >= 0 and t <= 1 and s >= 0 and s <= 1:
                 x = a+b*t
                 y = c+d*t
-                return Point(x,y)
+                return Point(x,y,0)
             else:
                 return None
         else:
@@ -92,7 +129,8 @@ class Line:
 
     @staticmethod
     def biSector(p1,p2):
-        mid = (p1+p2)/2
+        t = p1.z/float(p1.z+p2.z)
+        mid = (p1*t) + (p2*(1-t))
         vec = vector(p1,p2)
         p1 = (vec.nv*(100000))+mid
         p2 = (vec.nv*(-100000))+mid
@@ -144,4 +182,4 @@ class vector:
     def normal_vector(self):
         x,y = self.v.y,self.v.x
         x = x*-1
-        return Point(x,y)
+        return Point(x,y,0)

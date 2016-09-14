@@ -7,28 +7,24 @@ Created on Wed Apr 27 14:30:58 2016
 
 import numpy as np
 import layout as lay
-#import source_gen as sg
-from operator import attrgetter
+import source_gen as sg
 import tesselvisual as tv
-from shape import Point, Line
+from shape import Source, Line, Point
 import gen_cells as gc
 
 #define the size of the plane for generality
 planesize = [600,600]
 
 #generate list of galaxies
-stellars = []
-for i in range(100):
-    stellars.append(Point(np.random.random()*planesize[0],np.random.random()*planesize[1]))#,10000*(np.random.normal(0,0.1)**2)))
+sources = []
+for i in range(1000):
+    sources.append(Source(np.random.random()*planesize[0],np.random.random()*planesize[1],10000*(np.random.normal(0,0.1)**2)))
 
 #objects above the threshold seleected
-#source = sg.source_gen(stellars,300)
-
-#sort objects by x-axis
-stellars.sort(key=attrgetter('x','y'))
+stellars = sg.source_gen(sources,300)
 
 #create space for voronoi to fill
-space = (Line(Point(0,0),Point(planesize[0],0)),Line(Point(0,0),Point(0,planesize[1])),Line(Point(planesize[0],0),Point(planesize[0],planesize[1])),Line(Point(0,planesize[1]),Point(planesize[0],planesize[1])))
+space = (Line(Point(0,0,0),Point(planesize[0],0,0)),Line(Point(0,0,0),Point(0,planesize[1],0)),Line(Point(planesize[0],0,0),Point(planesize[0],planesize[1],0)),Line(Point(0,planesize[1],0),Point(planesize[0],planesize[1],0)))
 
 #generate the voronoi
 vorspace = lay.VoronoiSpace(stellars,space)
