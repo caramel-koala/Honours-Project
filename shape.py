@@ -130,7 +130,7 @@ class Line:
     @staticmethod
     def biSector(p1,p2):
         t = p1.z/float(p1.z+p2.z)
-        mid = (p1*t) + (p2*(1-t))
+        mid = (p1*(1-t)) + (p2*t)
         vec = vector(p1,p2)
         p1 = (vec.nv*(100000))+mid
         p2 = (vec.nv*(-100000))+mid

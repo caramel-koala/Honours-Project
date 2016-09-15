@@ -61,7 +61,7 @@ class VoronoiSpace:
                         lines[-1]._p1 = self.points[i]
                         lines[-1]._p2 = self.points[j]
                         q = self.points[i].z/float(self.points[i].z+self.points[j].z)
-                        mid.append((((self.points[i]*q)+(self.points[j]*(1-q))),t))
+                        mid.append((((self.points[i]*(1-q))+(self.points[j]*q)),t))
                         dis.append((t,(self.points[i].x-self.points[j].x)**2+(self.points[i].y-self.points[j].y)**2,Line(self.points[i],self.points[j])))
                         t = t+1
 
