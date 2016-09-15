@@ -33,4 +33,4 @@ vorspace.Voronoi((0,len(stellars)-1))
 cells = gc.gen_cells(vorspace,planesize)
 
 #plot results
-tv.tesselvisual(cells,stellars)
+tv.tesselvisual(cells,sources)

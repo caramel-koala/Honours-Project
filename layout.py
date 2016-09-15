@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import division
-from collections import defaultdict
 from operator import attrgetter
-from shape import Point,Line
+from shape import Line
 from diagram import VD
 from pointToLine import pair
 
@@ -34,7 +33,7 @@ class VoronoiSpace:
             #print 'len = 2'
             lower = range_points[0]
             upper = range_points[1]
-            line = [Line.biSector(self.points[lower],self.points[upper])]
+            line = [Line.wbiSector(self.points[lower],self.points[upper])]
             line[0]._p1 = self.points[lower]
             line[0]._p2 = self.points[upper]
             #hash table for point mapping to related biSector
@@ -55,13 +54,14 @@ class VoronoiSpace:
                 mid = []
                 for i in range(lower,upper):
                     for j in range(i+1,upper+1):
-                        lines.append(Line.biSector(self.points[i],self.points[j]))
+                        lines.append(Line.wbiSector(self.points[i],self.points[j]))
                         self.points[i].related.append(pair(lines[-1],self.points[j]))
                         self.points[j].related.append(pair(lines[-1],self.points[i]))
                         lines[-1]._p1 = self.points[i]
                         lines[-1]._p2 = self.points[j]
                         q = self.points[i].z/float(self.points[i].z+self.points[j].z)
-                        mid.append((((self.points[i]*(1-q))+(self.points[j]*q)),t))
+                        print q
+                        mid.append(((self.points[i]+self.points[j])/2,t))
                         dis.append((t,(self.points[i].x-self.points[j].x)**2+(self.points[i].y-self.points[j].y)**2,Line(self.points[i],self.points[j])))
                         t = t+1
 

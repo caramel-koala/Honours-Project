@@ -125,7 +125,7 @@ class VD:
         px = SG.p1
         py = SG.p2
         #p1 of upper_tangent belongs to VDL, and p2 belongs to VDR
-        SG_bisector = Line.biSector(SG.p1,SG.p2)
+        SG_bisector = Line.WbiSector(SG.p1,SG.p2)
         SG_bisector._p1 = SG.p1
         SG_bisector._p2 = SG.p2
 
@@ -201,7 +201,7 @@ class VD:
                     #VDL.parent.msg = VDL.parent.msg+'both are None'+'\n'
                     #let SG be lower_tangent
                     SG = lower_tangent
-                    SG_bisector = Line.biSector(SG.p1,SG.p2)
+                    SG_bisector = Line.WbiSector(SG.p1,SG.p2)
                     SG_bisector._p1 = SG.p1
                     SG_bisector._p2 = SG.p2
                     HP.append(SG_bisector)
@@ -231,7 +231,7 @@ class VD:
             #new SG
             px = SG.p1
             py = SG.p2
-            SG_bisector = Line.biSector(SG.p1,SG.p2)
+            SG_bisector = Line.WbiSector(SG.p1,SG.p2)
             SG_bisector._p1 = SG.p1
             SG_bisector._p2 = SG.p2
 

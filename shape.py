@@ -56,9 +56,9 @@ class Point:
     def __sub__(self,other):
         return Point(self.x-other.x,self.y-other.y,self.z-other.z)
     def __truediv__(self,other):
-        return Point(self.x/other,self.y/other,self.z/other)
+        return Point(self.x/other,self.y/other,self.z)
     def __mul__(self,other):
-        return Point(self.x*other,self.y*other,self.z*other)
+        return Point(self.x*other,self.y*other,self.z)
     def __eq__(self,other):
         if not isinstance(other,Point):
             return False
@@ -129,14 +129,23 @@ class Line:
 
     @staticmethod
     def biSector(p1,p2):
-        t = p1.z/float(p1.z+p2.z)
-        mid = (p1*(1-t)) + (p2*t)
+        mid = (p1 + p2)/2
         vec = vector(p1,p2)
         p1 = (vec.nv*(100000))+mid
         p2 = (vec.nv*(-100000))+mid
         return Line(p1,p2)
 
-
+    @staticmethod
+    def WbiSector(p1,p2):
+        t = p1.z/float(p1.z+p2.z)
+        print t
+        mid = (p1*(1-t)) + (p2*t)
+        vec = vector(p1,p2)
+        p1 = (vec.nv*(100000))+mid
+        p2 = (vec.nv*(-100000))+mid
+        return Line(p1,p2)
+        
+        
     def __eq__(self,other):
         if not isinstance(other,Line):
             return False
