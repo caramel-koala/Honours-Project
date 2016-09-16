@@ -16,12 +16,12 @@ import gen_cells as gc
 planesize = [600,600]
 
 #generate list of galaxies
-sources = []
-for i in range(1000):
-    sources.append(Source(np.random.random()*planesize[0],np.random.random()*planesize[1],10000*(np.random.normal(0,0.1)**2)))
+#sources = []
+#for i in range(300):
+#    sources.append(Source(np.random.random()*planesize[0],np.random.random()*planesize[1],np.log10(abs(np.random.normal(0,0.1))*10000)))
 
 #objects above the threshold seleected
-stellars = sg.source_gen(sources,300)
+stellars = sg.source_gen(sources,3)
 
 #create space for voronoi to fill
 space = (Line(Point(0,0,0),Point(planesize[0],0,0)),Line(Point(0,0,0),Point(0,planesize[1],0)),Line(Point(planesize[0],0,0),Point(planesize[0],planesize[1],0)),Line(Point(0,planesize[1],0),Point(planesize[0],planesize[1],0)))

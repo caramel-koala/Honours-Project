@@ -10,7 +10,7 @@ def gen_cells(vorspace,size):
     cells   = []
     
     for point in vorspace.points:
-        center  = [point.x,point.y]
+        center  = [point.x,point.y,point.z]
         lines   = []
         eps     = []
         #filters the list of lines to get only those within the space
@@ -22,9 +22,12 @@ def gen_cells(vorspace,size):
                 eps.append(edgetrim(rel.line,vorspace.edge_painter,size))
         #generates list of points to make up the cell
         if len(eps) == 2:
-            cells.append([center,edgecell(eps,lines,size)])
+            cells.append([center,edgecell(eps,lines,size)])                    
         else:
-            cells.append([center,centercell(lines)])
+            if len(lines)==0:
+                continue
+            else:
+                cells.append([center,centercell(lines)])
 
     return cells
 #generates and edge cell of the voronoi
@@ -47,7 +50,7 @@ def edgecell(eps,lines,size):
         return centercell(lines)
     else:
         #means it is a corner piece and a corner must be put in.
-        if nearly_equal(p1.x,0) or nearly_equal(p1.x,size[0]):
+        if (size[0]-p1.x < size[0]-p2.x and size[0]-p1.x < size[0]/1000.0) or (p1.x < p2.x and p1.x < size[0]/1000.0):
             p   = Point(p1.x,p2.y,0)
         else:
             p   = Point(p2.x,p1.y,0)
@@ -56,7 +59,6 @@ def edgecell(eps,lines,size):
         lines.append(Line(p,p1))
         lines.append(Line(p,p2))
         return centercell(lines)
-    
         
 #generate cells fully inside the space of the voronoi 
 def centercell(lines):
@@ -74,6 +76,9 @@ def centercell(lines):
                 results.append(nextp)
                 #returns a list of 2-point arrays        
                 return depointify(results)
+        if nexseg == 0:
+            print results
+            return None
         #appends the checking point to the results and moves to the next one
         if nexseg.p1 == nextp:
             results.append(nextp)
@@ -147,7 +152,7 @@ def depointify(points):
     return results
 
 #checks if two numbers are approximately equal    
-def nearly_equal(a,b,sig_fig=5):
+def nearly_equal(a,b,sig_fig=1):
     return ( a==b or 
              int(a*10**sig_fig) == int(b*10**sig_fig)
            )

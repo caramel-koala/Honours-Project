@@ -2,7 +2,6 @@ def tesselvisual(arr_cells, arr_obj):
 
     #overhead
     import numpy as np
-    #from scipy.spatial import Voronoi, voronoi_plot_2d
     import matplotlib.pyplot as plt
     import matplotlib
     from matplotlib.patches import Polygon
@@ -10,18 +9,15 @@ def tesselvisual(arr_cells, arr_obj):
     
     #extract centres
     centres = []
-    vert = []
+    rcentres = []
     polys = []
     for cell in arr_cells:
-        centres.append(cell[0])
-        poly = Polygon(cell[1],True)
-        polys.append(poly)
-        #for v in range(1,len(cell)):
-        #    vert.append(cell[v])
-    
-    ##Generate base voronoi diagram
-    #vor = Voronoi(centres)
-    #voronoi_plot_2d(vor) 
+        if not cell[1] == None:
+            centres.append(cell[0])
+            poly = Polygon(cell[1],True)
+            polys.append(poly)
+        else:
+            rcentres.append(cell[0])
     
     
     #plot voronoi with polygons
@@ -36,14 +32,15 @@ def tesselvisual(arr_cells, arr_obj):
     
     ax.add_collection(p)
     
-    #for v in vert:
-    #    plt.scatter(v[0],v[1],c='r')
     
     for G in arr_obj:
-        plt.scatter(G.x,G.y,c='g',s=G.z)#s=10*np.log2(G[2]))
+        plt.scatter(G.x,G.y,c='g',s=G.z*10)
     
     for c in centres:
-         plt.scatter(c[0],c[1],c='b',marker='+',s=100)
+         plt.scatter(c[0],c[1],c='b',s=10**(c[2]-1))
          
+    for r in rcentres:
+         plt.scatter(r[0],r[1],c='r',s=10**(r[2]-1))
+    
     plt.show
     return
