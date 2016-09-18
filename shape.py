@@ -138,16 +138,11 @@ class Line:
     @staticmethod
     def WbiSector(p1,p2):
         t = p1.z/float(p1.z+p2.z)
-        print t
-        print p1
-        print p2
         mid = (p1*(1-t)) + (p2*t)
-        print mid
         vec = vector(p1,p2)
         p1 = (vec.nv*(100000))+mid
         p2 = (vec.nv*(-100000))+mid
         l = Line(p1,p2)
-        print l
         return l
         
         

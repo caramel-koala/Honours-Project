@@ -77,7 +77,7 @@ def centercell(lines):
                 #returns a list of 2-point arrays        
                 return depointify(results)
         if nexseg == 0:
-            print results
+            #print results
             return None
         #appends the checking point to the results and moves to the next one
         if nexseg.p1 == nextp:
