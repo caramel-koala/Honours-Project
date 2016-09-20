@@ -33,7 +33,7 @@ class VoronoiSpace:
             #print 'len = 2'
             lower = range_points[0]
             upper = range_points[1]
-            line = [Line.WbiSector(self.points[lower],self.points[upper])]
+            line = [Line.biSector(self.points[lower],self.points[upper])]
             line[0]._p1 = self.points[lower]
             line[0]._p2 = self.points[upper]
             #hash table for point mapping to related biSector
@@ -54,7 +54,7 @@ class VoronoiSpace:
                 mid = []
                 for i in range(lower,upper):
                     for j in range(i+1,upper+1):
-                        lines.append(Line.WbiSector(self.points[i],self.points[j]))
+                        lines.append(Line.biSector(self.points[i],self.points[j]))
                         self.points[i].related.append(pair(lines[-1],self.points[j]))
                         self.points[j].related.append(pair(lines[-1],self.points[i]))
                         lines[-1]._p1 = self.points[i]

@@ -16,9 +16,9 @@ import gen_cells as gc
 planesize = [600,600]
 
 #generate list of galaxies
-#sources = []
-#for i in range(300):
-#    sources.append(Source(np.random.random()*planesize[0],np.random.random()*planesize[1],np.log10(abs(np.random.normal(0,0.1))*10000)))
+sources = []
+for i in range(300):
+    sources.append(Source(np.random.random()*planesize[0],np.random.random()*planesize[1],np.log10(abs(np.random.normal(0,0.1))*10000)))
 
 #objects above the threshold seleected
 stellars = sg.source_gen(sources,3)
