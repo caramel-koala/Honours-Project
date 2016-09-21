@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Sep 21 19:41:52 2016
-
-@author: caramelkoala
-"""
-
 def tesselvisual(arr_cells, arr_obj):
 
     #overhead
@@ -41,7 +34,7 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     for G in arr_obj:
-        plt.scatter(G[0],G[1],c='g',s=G[2]*10)
+        plt.scatter(G.x,G.y,c='g',s=G.z*10)
     
     for c in centres:
          plt.scatter(c[0],c[1],c='b',s=10**(c[2]-1))
