@@ -5,7 +5,6 @@ Created on Wed Apr 27 14:30:58 2016
 @author: caramelkoala
 """
 
-import numpy as np
 import layout as lay
 import source_gen as sg
 import tesselvisual as tv
