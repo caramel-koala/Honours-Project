@@ -5,9 +5,7 @@ Created on Wed Sep 21 11:20:07 2016
 @author: caramelkoala
 """
 
-import ch as ch
 import shape as sh
-from collections import defaultdict
 
 def merge(points,VDL,VDR):
     clip_lines = []

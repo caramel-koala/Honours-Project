@@ -8,7 +8,6 @@ Created on Wed Sep 21 10:29:03 2016
 import shape as sh
 from diagram import merge
 from operator import itemgetter
-import ch as ch
 
 def Voronoi(points,space,range_points):
     
