@@ -14,9 +14,6 @@ def merge(points,VDL,VDR):
     ray_list = []
 
     upper_tangent,lower_tangent = find_tangent(points,VDL,VDR)
-#    ul = (upper_tangent,lower_tangent)
-#    tangent[0].append(ul)
-
     HP = []
     SG = upper_tangent
     px = SG[0]
@@ -33,7 +30,6 @@ def merge(points,VDL,VDR):
     newpl = []
 
     while not (SG  == lower_tangent):
-        #step4 as textBook
 
         #p1 of SG_bisector is fixed to upper position than p2
         if SG_bisector[0][1] > SG_bisector[1][1]:
@@ -60,42 +56,35 @@ def merge(points,VDL,VDR):
         #with biSector of pyz2 first,that is,VDR first
         if result_l is not None and result_r is not None:
             if abs(result_l[0][0]-result_r[0][0]) <= 0.05 and abs(result_l[0][1]-result_r[0][1]) <= 0.05:
-                #VDL.parent.msg = VDL.parent.msg+'both cd'+'\n'
                 SG = sh.NewLine(result_l[1],result_r[1]);
                 circumcenter = result_l[0]
                 ray = (result_l[2],result_r[2])
                 side = 'both'
             elif result_l[0][1] > result_r[0][1]:
-                #VDL.parent.msg = VDL.parent.msg+'cd VDR'+'\n'
                 SG = sh.NewLine(px,result_r[1])
                 circumcenter = result_r[0]
                 ray = result_r[2]
                 side = 'right'
             elif result_l[0][1] < result_r[0][1]:
-                #VDL.parent.msg = VDL.parent.msg+'cd VDL'+'\n'
                 SG = sh.NewLine(result_l[1],py)
                 circumcenter = result_l[0]
                 ray = result_l[2]
                 side = 'left'
             else:
                 print 'confused...'
-                #print result_l,result_r
         else:
             if result_l is not None and result_r is None:
-                #VDL.parent.msg = VDL.parent.msg+'VDR is None,cd VDL'+'\n'
                 SG = sh.NewLine(result_l[1],py)
                 circumcenter = result_l[0]
                 ray = result_l[2]
                 side = 'left'
             elif result_r is not None and result_l is None:
-                #VDL.parent.msg = VDL.parent.msg+'VDL is None,cd VDR'+'\n'
                 SG = sh.NewLine(px,result_r[1])
                 circumcenter = result_r[0]
-                #print 'circumcenter',(circumcenter.x,circumcenter.y)
+																
                 ray = result_r[2]
                 side = 'right'
             else:
-                #VDL.parent.msg = VDL.parent.msg+'both are None'+'\n'
                 #let SG be lower_tangent
                 SG = lower_tangent
                 SG_bisector = sh.biSector(SG[0],SG[1])
@@ -121,7 +110,6 @@ def merge(points,VDL,VDR):
 
         if circumcenter is not None:
             circumcenter[3] = True
-            #lower point is replaced by circumcenter
             SG_bisector[1] = circumcenter
 
 
@@ -155,7 +143,6 @@ def merge(points,VDL,VDR):
 
 
     #clip the unwanted lines
-#    VDL.parent.msg = VDL.parent.msg+ 'clip lines'+'\n'
     for t in clip_lines:
         ray = t[0]
         circumcenter = t[3]
@@ -192,23 +179,13 @@ def merge(points,VDL,VDR):
                 r[0][5].append(r[1])
         s = s+1
 
-
-
-
     lines = []
-    #lines = VDR.lines+VDL.lines+HP
     lines.append(VDR[0])
     lines.append(VDL[0])
     lines.append(HP)
-#    if VDL.parent.isstep_by_step == True:
-#        hp = []
-#        for h in HP:
-#            hp.append(Line(Point(h.p1.x,h.p1.y),Point(h.p2.x,h.p2.y)))
-#        VDR.parent.hp[0].append(hp)
-    #VDR.parent.hp[0].append(copy.deepcopy(HP))
+
     range_points = (VDL[1][0],VDR[1][1])
     return [lines,range_points,sh.amc(points,range_points)]
-    #return VD(lines,points)
 
 def find_tangent(points,VDL,VDR):
     pl = points[VDL[1][1]]
@@ -223,8 +200,6 @@ def find_tangent(points,VDL,VDR):
 
     upper_tangent = sh.NewLine(pl,pr)
 
-    #VDL.parent.msg = VDL.parent.msg + 'upper_tangent = '+upper_tangent.p1.display+' '+upper_tangent.p2.display+'\n'
-
     pl = points[VDL[1][1]]
     pr = points[VDR[1][0]]
 
@@ -234,18 +209,13 @@ def find_tangent(points,VDL,VDR):
         while not islower_tangent(pl,pr,'right'):
             pr = pr[5]
 
-
     lower_tangent = sh.NewLine(pl,pr)
 
-    #VDL.parent.msg =  VDL.parent.msg+'lower_tangent = '+lower_tangent.p1.display+' '+lower_tangent.p2.display+'\n'
-
-
     return (upper_tangent,lower_tangent)
-				
+###############################################################################				
 def discard_edges(ray,circumcenter,side,SG_bisector, ray_list):
 	if side == 'right':
 		#clear the edges extend to the left of HP
-		#Line(hole,ray.p1) or Line(hole,ray.p2) must cw to Line(hole,bisector.p1)
 		if sh.cross(circumcenter,ray[0],SG_bisector[0])>0:
 		#this means p1 is left to circumcenter,so replace p1 with circumcenter
 			if ray[0][3] == True:
@@ -256,43 +226,40 @@ def discard_edges(ray,circumcenter,side,SG_bisector, ray_list):
 				recursive_discard_edge(ray,circumcenter,ray[1],'right', ray_list)
 			ray[1] = circumcenter
 	elif side == "left":
-            #clear the edges extend to the right of HP
-            #Line(hole,ray.p1) or Line(hole,ray.p2) must ccw to Line(hole,bisector.p1)
-            if sh.cross(circumcenter,ray[0],SG_bisector[0])<0:
+		#clear the edges extend to the right of HP
+		if sh.cross(circumcenter,ray[0],SG_bisector[0])<0:
                 #this means p1 is right to circumcenter,so replace p1 with circumcenter
-                if ray[0][3] == True:
-                    recursive_discard_edge(ray,circumcenter,ray[0],'left', ray_list)
-                ray[0] = circumcenter
-            else:
-
-                if ray[1][3] == True:
-                    recursive_discard_edge(ray,circumcenter,ray[1],'left', ray_list)
-                ray[1] = circumcenter
+			if ray[0][3] == True:
+				recursive_discard_edge(ray,circumcenter,ray[0],'left', ray_list)
+			ray[0] = circumcenter
+		else:
+			if ray[1][3] == True:
+				recursive_discard_edge(ray,circumcenter,ray[1],'left', ray_list)
+			ray[1] = circumcenter
 	else:
-            #clear both side
-            #clear the edges extend to the right of HP
-            #Line(hole,ray.p1) or Line(hole,ray.p2) must ccw to Line(hole,bisector.p1)
-            if sh.cross(circumcenter,ray[0][0],SG_bisector[0])<0:
-                #this means p1 is right to circumcenter,so replace p1 with circumcenter
-                if ray[0][0][3] == True:
-                    recursive_discard_edge(ray[0],circumcenter,ray[0][0],'left', ray_list)
-                ray[0][0] = circumcenter
-            else:
-                if ray[0][1][3] == True:
-                    recursive_discard_edge(ray[0],circumcenter,ray[0][1],'left', ray_list)
-                ray[0][1] = circumcenter
+		#clear both side
+		#clear the edges extend to the right of HP
+		if sh.cross(circumcenter,ray[0][0],SG_bisector[0])<0:
+			#this means p1 is right to circumcenter,so replace p1 with circumcenter
+			if ray[0][0][3] == True:
+				recursive_discard_edge(ray[0],circumcenter,ray[0][0],'left', ray_list)
+			ray[0][0] = circumcenter
+		else:
+			if ray[0][1][3] == True:
+				recursive_discard_edge(ray[0],circumcenter,ray[0][1],'left', ray_list)
+			ray[0][1] = circumcenter
 
-            #clear the edges extend to the left of HP
-            if sh.cross(circumcenter,ray[1][0],SG_bisector[0])>0:
-                #this means p1 is left to circumcenter,so replace p1 with circumcenter
-                if ray[1][0][3] == True:
-                    recursive_discard_edge(ray[1],circumcenter,ray[1][0],'right', ray_list)
-                ray[1][0] = circumcenter
-            else:
-                if ray[1][1][3] == True:
-                    recursive_discard_edge(ray[1],circumcenter,ray[1][1],'right', ray_list)
-                ray[1][1] = circumcenter
-																
+		#clear the edges extend to the left of HP
+		if sh.cross(circumcenter,ray[1][0],SG_bisector[0])>0:
+			#this means p1 is left to circumcenter,so replace p1 with circumcenter
+			if ray[1][0][3] == True:
+				recursive_discard_edge(ray[1],circumcenter,ray[1][0],'right', ray_list)
+			ray[1][0] = circumcenter
+		else:
+			if ray[1][1][3] == True:
+				recursive_discard_edge(ray[1],circumcenter,ray[1][1],'right', ray_list)
+			ray[1][1] = circumcenter
+###############################################################################										
 def recursive_discard_edge(ray,other_point,base_point,side, ray_list):
 	#want to delete left remaining line
 	for candidate in ray[5]:
@@ -316,7 +283,7 @@ def recursive_discard_edge(ray,other_point,base_point,side, ray_list):
 					if sh.cross(base_point,next_base_point,other_point) < 0:
 						candidate[6] = False
 						recursive_discard_edge(candidate,next_other_point,next_base_point,'left', ray_list)
-
+###############################################################################
 def nextPoint(pool,SG_bisector):
 	ans = None
 	first = True
@@ -332,7 +299,7 @@ def nextPoint(pool,SG_bisector):
 					if t[0][1] <= ans[0][1]:
 						ans = t
 	return ans																
-
+###############################################################################
 def isupper_tangent(pl,pr,pos):
     if pos == 'left':
         #because y is reverse in canvas,so we need to reverse the clockwise/clock,debug this is so diffcult...
@@ -340,9 +307,10 @@ def isupper_tangent(pl,pr,pos):
     else:
         return sh.cross(pl,pr,pr[4]) >= 0
 
-
+###############################################################################
 def islower_tangent(pl,pr,pos):
     if pos == 'left':
         return sh.cross(pr,pl,pl[4]) >= 0
     else:
         return sh.cross(pl,pr,pr[5]) <= 0
+###############################################################################

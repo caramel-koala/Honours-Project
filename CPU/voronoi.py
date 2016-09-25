@@ -18,8 +18,7 @@ def Voronoi(points,space,range_points):
         line = [sh.biSector(points[lower],points[upper])]
         line[0][2] = points[lower]
         line[0][3] = points[upper]
-        
-        #hash table for point mapping to related biSector
+
         points[lower][6].append([line[0],points[upper]])
         points[upper][6].append([line[0],points[lower]])
         
