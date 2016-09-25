@@ -8,7 +8,7 @@ Created on Wed Sep 21 10:06:38 2016
 import numpy as np
 from source_gen import source_gen
 from shape import NewLine
-from layout import Voronoi
+from voronoi import Voronoi
 import gen_cells as gc
 import tesselvisual as tv
 
