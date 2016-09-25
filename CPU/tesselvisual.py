@@ -41,13 +41,13 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     for G in arr_obj:
-        plt.scatter(G[0],G[1],c='g',s=G[2]*10)
+        plt.scatter(G[0],G[1],c='g',s=G[2]/20)
     
     for c in centres:
-         plt.scatter(c[0],c[1],c='b',s=10**(c[2]-1))
+         plt.scatter(c[0],c[1],c='b',marker='+',s=100)
          
     for r in rcentres:
-         plt.scatter(r[0],r[1],c='r',s=10**(r[2]-1))
+         plt.scatter(r[0],r[1],c='r',marker='+',s=100)
     
     plt.show
     return
