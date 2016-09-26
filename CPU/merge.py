@@ -10,7 +10,6 @@ import shape as sh
 def merge(points,VDL,VDR):
     clip_lines = []
     #used to record ray which intersect with dividing chain
-    #using hash table
     ray_list = []
 
     upper_tangent,lower_tangent = find_tangent(points,VDL,VDR)
@@ -18,6 +17,7 @@ def merge(points,VDL,VDR):
     SG = upper_tangent
     px = SG[0]
     py = SG[1]
+				
     #p1 of upper_tangent belongs to VDL, and p2 belongs to VDR
     SG_bisector = sh.biSector(SG[0],SG[1])
     SG_bisector[2] = SG[0]
@@ -53,6 +53,7 @@ def merge(points,VDL,VDR):
 
         side = None
         ray = None
+								
         #with biSector of pyz2 first,that is,VDR first
         if result_l is not None and result_r is not None:
             if abs(result_l[0][0]-result_r[0][0]) <= 0.05 and abs(result_l[0][1]-result_r[0][1]) <= 0.05:
@@ -156,6 +157,7 @@ def merge(points,VDL,VDR):
         #need to add the intersected dividing chain
         HP[t][5].append(HP[t+1])
         HP[t+1][5].append(HP[t])
+								
         #need to add the intersected ray
         if s  !=  len(clip_lines):
             if not isinstance(clip_lines[s][0],tuple):
