@@ -53,7 +53,7 @@ def merge(points,VDL,VDR):
 
         side = None
         ray = None
-								
+		
         #with biSector of pyz2 first,that is,VDR first
         if result_l is not None and result_r is not None:
             if abs(result_l[0][0]-result_r[0][0]) <= 0.05 and abs(result_l[0][1]-result_r[0][1]) <= 0.05:
@@ -188,7 +188,7 @@ def merge(points,VDL,VDR):
 
     range_points = (VDL[1][0],VDR[1][1])
     return [lines,range_points,sh.amc(points,range_points)]
-
+###############################################################################
 def find_tangent(points,VDL,VDR):
     pl = points[VDL[1][1]]
     pr = points[VDR[1][0]]
@@ -304,7 +304,6 @@ def nextPoint(pool,SG_bisector):
 ###############################################################################
 def isupper_tangent(pl,pr,pos):
     if pos == 'left':
-        #because y is reverse in canvas,so we need to reverse the clockwise/clock,debug this is so diffcult...
         return sh.cross(pr,pl,pl[5]) <= 0
     else:
         return sh.cross(pl,pr,pr[4]) >= 0

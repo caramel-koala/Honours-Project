@@ -72,7 +72,7 @@ def amc(points,range_points):
         CH[m] = points[i]
         m = m+1
     m = m-1
-    #print m
+
     for i in range(0,m):
         CH[i][5] = CH[(i-1)%m]
         CH[i][4] = CH[(i+1)%m]
