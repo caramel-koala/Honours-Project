@@ -7,7 +7,7 @@ Created on Wed Sep 21 10:06:38 2016
 
 import numpy as np
 from source_gen import source_gen
-from shape import NewLine
+from shape import NewLine, recenter
 from voronoi import Voronoi
 import gen_cells as gc
 import tesselvisual as tv
@@ -31,6 +31,9 @@ space = (NewLine((0,0,0),(planesize[0],0,0)),NewLine((0,0,0),(0,planesize[1],0))
 Voronoi(stellars,(0,len(stellars)-1))
 
 source_to_cell(stellars,sources,planesize)
+
+for s in stellars:
+	recenter(s)
 
 cells = gc.gen_cells(stellars,planesize,space)
 

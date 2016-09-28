@@ -87,4 +87,20 @@ def distance(p1,p2):
     
 
 def recenter(point):
-    return point
+	numerator = [0,0];
+	denomenator = 0;
+	for source in point[7]:
+		numerator[0] += source[0]*source[2]
+		numerator[1] += source[1]*source[2]
+		denomenator += source[2]
+	
+	point[0] = numerator[0]/denomenator
+	point[1] = numerator[1]/denomenator
+	point[2] = denomenator
+	
+	error = 0
+	
+	for source in point[7]:
+		error += (source[2]/point[2])*distance(source,point)
+		
+	point[8] = error
