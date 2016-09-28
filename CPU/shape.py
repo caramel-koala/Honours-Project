@@ -4,8 +4,12 @@ Created on Wed Sep 21 10:17:45 2016
 
 @author: caramelkoala
 """
+
+import numpy as np
+
 def NewPoint(source):
     return [source[0],source[1],source[2],False,None,None,[],[],None]
+          #[x,y,z,circumcenter,cw,ccw,related,sources,error]
 
 def NewLine(p1,p2):
     return [p1,p2,None,None,None,[],True]
@@ -77,3 +81,10 @@ def amc(points,range_points):
         CH[i][5] = CH[(i-1)%m]
         CH[i][4] = CH[(i+1)%m]
     return CH
+    
+def distance(p1,p2):
+    return np.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+    
+
+def recenter(point):
+    return point
