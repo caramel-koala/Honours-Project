@@ -9,29 +9,30 @@ import shape as sh
 
 def gen_cells(points,size,space):
     
-    cells   = []
-    
-    for point in points:
-        center  = [point[0],point[1],point[2]]
-        lines   = []
-        eps     = []
-        #filters the list of lines to get only those within the space
-        for rel in point[6]:
-            if (rel[0][6] and inspace(rel[0][0],size) and inspace(rel[0][1],size)):
-                lines.append(rel[0])
-            elif rel[0][6] and (inspace(rel[0][0],size) or inspace(rel[0][1],size)):
-                #get those that intercept the plane
-                eps.append(edgetrim(rel[0],space,size))
-        #generates list of points to make up the cell
-        if len(eps) == 2:
-            cells.append([center,edgecell(eps,lines,size)])                    
-        else:
-            if len(lines)==0:
-                continue
-            else:
-                cells.append([center,centercell(lines)])
+	cells   = []
 
-    return cells
+	for point in points:
+		if point[9] == True	:
+			center  = [point[0],point[1],point[2]]
+			lines   = []
+			eps     = []
+			#filters the list of lines to get only those within the space
+			for rel in point[6]:
+				if (rel[0][6] and inspace(rel[0][0],size) and inspace(rel[0][1],size)):
+					lines.append(rel[0])
+				elif rel[0][6] and (inspace(rel[0][0],size) or inspace(rel[0][1],size)):
+					#get those that intercept the plane
+					eps.append(edgetrim(rel[0],space,size))
+			#generates list of points to make up the cell
+			if len(eps) == 2:
+				cells.append([center,edgecell(eps,lines,size)])                    
+			else:
+				if len(lines)==0:
+					continue
+				else:
+					cells.append([center,centercell(lines)])
+					
+	return cells
 
 
 #checks if a point is in the plane

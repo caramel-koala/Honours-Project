@@ -8,8 +8,8 @@ Created on Wed Sep 21 10:17:45 2016
 import numpy as np
 
 def NewPoint(source):
-    return [source[0],source[1],source[2],False,None,None,[],[],None]
-          #[x,y,z,circumcenter,cw,ccw,related,sources,error]
+    return [source[0],source[1],source[2],False,None,None,[],[],None,True]
+          #[x,y,z,circumcenter,cw,ccw,related,sources,error,active]
 
 def NewLine(p1,p2):
     return [p1,p2,None,None,None,[],True]

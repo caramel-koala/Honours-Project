@@ -12,13 +12,14 @@ from voronoi import Voronoi
 import gen_cells as gc
 import tesselvisual as tv
 from stc import source_to_cell
+from cell_merge import cell_merge
 
 #define the size of the plane for generality
 planesize = [600,600]
 
 #generate list of galaxies
 sources = []
-for i in range(300):
+for i in range(100):
     sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],abs(np.random.normal(0,0.1))*10000))
 
 #objects above the threshold seleected
@@ -34,6 +35,13 @@ source_to_cell(stellars,sources,planesize)
 
 for s in stellars:
 	recenter(s)
+
+#cells = gc.gen_cells(stellars,planesize,space)
+#
+##plot results
+#tv.tesselvisual(cells,sources)
+
+cell_merge(stellars)
 
 cells = gc.gen_cells(stellars,planesize,space)
 
