@@ -28,7 +28,7 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     #plot voronoi with polygons
-    #plt.figure(1)
+    plt.figure(2)
     
     p = PatchCollection(polys, cmap=matplotlib.cm.jet, alpha=0.4)
 

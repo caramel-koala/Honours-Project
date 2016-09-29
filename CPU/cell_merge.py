@@ -8,11 +8,11 @@ Created on Wed Sep 28 13:45:34 2016
 from shape import distance
 
 def cell_merge(points):
-	for i in xrange(1):
+	for i in xrange(1,len(points)-10):
 		
 		best = get_best(points)		
 		
-		do_merge(best[0], best[1], best[2], best[3])
+		do_merge(best[0], best[1], best[2], best[3], points)
 		
 		
 ###############################################################################
@@ -24,7 +24,7 @@ def get_best(points):
 			for r in p[6]:
 				if r[0][6] == True:
 					newp, newerr = merge_test(p,r[1])
-					delta = (p[8] + r[1][8]) - newerr
+					delta = newerr - (p[8] + r[1][8])
 					if delta < best_delta:
 						best_delta = delta
 						best = [p,r,newp,newerr]
@@ -49,26 +49,21 @@ def merge_test(p1,p2):
 	return point,error
 	
 ###############################################################################
-def do_merge(p,r,newp,newerr):
+def do_merge(p,r,newp,newerr,points):
 	
-	p[0] = newp[0]
-	p[1] = newp[1]	
-	p[2] = newp[2]
-				
-	r[0][6] = False
+     p[0] = newp[0]
+     p[1] = newp[1]	
+     p[2] = newp[2]
+     
+     r[0][6] = False
 	
-	p[6] += r[1][6]
-	
-	p[7] += r[1][7]
-	p[8] = newerr		
-	
-#	r[1][0] = p[0]	
-#	r[1][1] = p[1]	
-#	r[1][2] = p[2]	
-#	r[1][3] = p[3]	
-#	r[1][4] = p[4]	
-#	r[1][5] = p[5]	
-#	r[1][6] = p[6]	
-#	r[1][7] = p[7]	
-#	r[1][8] = p[8]	
-#	r[1][9] = False
+     p[6] += r[1][6]
+     
+     p[7] += r[1][7]
+     p[8] = newerr		
+     
+     r[1][9] = False
+     
+     for q in points:
+         if (q[0] == r[1][0]) and (q[1] == r[1][1]):
+             q = p

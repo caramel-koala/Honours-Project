@@ -19,7 +19,7 @@ planesize = [600,600]
 
 #generate list of galaxies
 sources = []
-for i in range(100):
+for i in range(300):
     sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],abs(np.random.normal(0,0.1))*10000))
 
 #objects above the threshold seleected
