@@ -28,7 +28,7 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     #plot voronoi with polygons
-    plt.figure(2)
+    plt.figure()
     
     p = PatchCollection(polys, cmap=matplotlib.cm.jet, alpha=0.4)
 
@@ -41,7 +41,7 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     for G in arr_obj:
-        plt.scatter(G[0],G[1],c='g',s=G[2]/20)
+        plt.scatter(G[0],G[1],c='g',s=G[2]*10)
     
     for c in centres:
          plt.scatter(c[0],c[1],c='b',marker='+',s=100)

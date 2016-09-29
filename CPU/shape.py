@@ -8,8 +8,8 @@ Created on Wed Sep 21 10:17:45 2016
 import numpy as np
 
 def NewPoint(source):
-    return [source[0],source[1],source[2],False,None,None,[],[],None,True]
-          #[x,y,z,circumcenter,cw,ccw,related,sources,error,active]
+    return [source[0],source[1],source[2],False,None,None,[],[],None,[]]
+          #[x,y,z,circumcenter,cw,ccw,related,sources,error,consumed]
 
 def NewLine(p1,p2):
     return [p1,p2,None,None,None,[],True]
@@ -84,23 +84,41 @@ def amc(points,range_points):
     
 def distance(p1,p2):
     return np.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
-    
 
-def recenter(point):
-	numerator = [0,0];
-	denomenator = 0;
-	for source in point[7]:
-		numerator[0] += source[0]*source[2]
-		numerator[1] += source[1]*source[2]
-		denomenator += source[2]
-	
-	point[0] = numerator[0]/denomenator
-	point[1] = numerator[1]/denomenator
-	point[2] = denomenator
-	
-	error = 0
-	
-	for source in point[7]:
-		error += (source[2]/point[2])*distance(source,point)
-		
-	point[8] = error
+def wdistance(p1,p2):
+    t = p1[2]/(p1[2]+p2[2])
+    return np.sqrt((t*p1[0]-(1-t)*p2[0])**2 + (t*p1[1]-(1-t)*p2[1])**2)
+
+def source_to_cell(points, sources, size):
+    
+    for source in sources:
+        min_dist = size[0]*size[1] #starting minimum is the greatest possible distance
+        minpoint = None
+        
+        for p in points:
+            d = distance(source,p)
+            if d < min_dist:
+                min_dist = d
+                minpoint = p
+        
+        minpoint[7].append(source)    
+
+def recenter(points):
+    for point in points:
+        numerator = [0,0]
+        denomenator = 0
+        for source in point[7]:
+            numerator[0] += source[0]*source[2]
+            numerator[1] += source[1]*source[2]
+            denomenator += source[2]
+        	
+        point[0] = numerator[0]/denomenator
+        point[1] = numerator[1]/denomenator
+        point[2] = denomenator/len(point[7])
+        	
+        error = 0
+            
+        for source in point[7]:
+            error += wdistance(source,point)
+            
+        point[8] = error/float(len(points[7]))
