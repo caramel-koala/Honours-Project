@@ -5,7 +5,7 @@ Created on Wed Sep 28 13:45:34 2016
 @author: caramelkoala
 """
 
-from shape import wdistance
+from shape import error
 
 def cell_merge(points):
 	for i in xrange(1):
@@ -18,7 +18,7 @@ def cell_merge(points):
 ###############################################################################
 def get_best(points):
     best = [None, None, None, None]
-    best_delta = 900000
+    best_delta = 99999999999
     for p in points:
          for r in p[6]:
              if r[0][6] == True:
@@ -36,17 +36,21 @@ def merge_test(p1,p2):
     t = p1[2]/(p1[2]+p2[2])
     n0 = t*p1[0] + (1-t)*p2[0]
     n1 = t*p1[1] + (1-t)*p2[1]
-    d  = p1[2] + p2[2]
+    d = None
+    if p1[2] > p2[2]:
+        d = p1[2]
+    else:
+        d = p2[2]
         	
-    point = [n0, n1, d/2]
+    point = [n0, n1, d]
 
-    error = 0
+    err = 0
     for source in p1[7]:
-        error += wdistance(source,point)	
+        err += error(source,point)	
     for source in p2[7]:
-        error += wdistance(source,point)
+        err += error(source,point)
         
-    return point,error
+    return point,err
 	
 ###############################################################################
 def do_merge(p,r,newp,newerr,points):

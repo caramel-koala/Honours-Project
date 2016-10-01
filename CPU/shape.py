@@ -99,6 +99,9 @@ def distance(p1,p2):
 def wdistance(p1,p2):
     t = p1[2]/(p1[2]+p2[2])
     return np.sqrt(t*(p1[0]-p2[0])**2 + t*(p1[1]-p2[1])**2)
+    
+def error(ri,rc):
+    return ri[2]*((ri[0]-rc[0])**2 + (ri[1]-rc[1])**2)
 
 def source_to_cell(points, sources, size):
     
@@ -127,9 +130,9 @@ def recenter(points):
         point[1] = numerator[1]/denomenator
         point[2] = denomenator
         	
-        error = 0
+        err = 0
             
         for source in point[7]:
-            error += wdistance(source,point)
+            err += error(source,point)
             
-        point[8] = error
+        point[8] = err

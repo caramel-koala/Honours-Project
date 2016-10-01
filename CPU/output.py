@@ -43,10 +43,10 @@ cells = gc.gen_cells(stellars,planesize,space)
 #plot results
 tv.tesselvisual(cells,sources)
 
-for i in xrange(10):
-    cell_merge(stellars)
-    
-    cells = gc.gen_cells(stellars,planesize,space)
-    
-    #plot results
-    tv.tesselvisual(cells,sources)
+#for i in xrange(10):
+#    cell_merge(stellars)
+#    
+#    cells = gc.gen_cells(stellars,planesize,space)
+#    
+#    #plot results
+#    tv.tesselvisual(cells,sources)
