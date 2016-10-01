@@ -17,11 +17,11 @@ planesize = [600,600]
 
 #generate list of galaxies
 sources = []
-for i in range(200):
-    sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.log10(np.abs(np.random.normal(0,0.1)*10000))))
+for i in range(100):
+    sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,3000))))
 
 #objects above the threshold seleected
-stellars = source_gen(sources,3)
+stellars = source_gen(sources,3000)
 
 #space defined
 space = (NewLine((0,0,0),(planesize[0],0,0)),NewLine((0,0,0),(0,planesize[1],0)),NewLine((planesize[0],0,0),(planesize[0],planesize[1],0)),NewLine((0,planesize[1],0),(planesize[0],planesize[1],0)))
@@ -43,9 +43,10 @@ cells = gc.gen_cells(stellars,planesize,space)
 #plot results
 tv.tesselvisual(cells,sources)
 
-cell_merge(stellars)
+for i in xrange(10):
+    cell_merge(stellars)
     
-cells = gc.gen_cells(stellars,planesize,space)
-
-#plot results
-tv.tesselvisual(cells,sources)
+    cells = gc.gen_cells(stellars,planesize,space)
+    
+    #plot results
+    tv.tesselvisual(cells,sources)

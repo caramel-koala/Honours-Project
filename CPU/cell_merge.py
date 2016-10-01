@@ -8,7 +8,7 @@ Created on Wed Sep 28 13:45:34 2016
 from shape import wdistance
 
 def cell_merge(points):
-	for i in xrange(10):
+	for i in xrange(1):
 		
 		best = get_best(points)		
 		
@@ -38,7 +38,7 @@ def merge_test(p1,p2):
     n1 = t*p1[1] + (1-t)*p2[1]
     d  = p1[2] + p2[2]
         	
-    point = [n0, n1, d]
+    point = [n0, n1, d/2]
 
     error = 0
     for source in p1[7]:
