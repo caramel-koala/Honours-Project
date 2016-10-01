@@ -7,6 +7,17 @@ Created on Wed Sep 21 10:17:45 2016
 
 import numpy as np
 
+def source_gen(stellar, threshold):		
+	source = [] 		
+	for i in stellar:		
+		if i[2] > threshold:		
+			source.append(NewPoint(i))		
+        		
+    #sort objects by x-axis
+	source.sort(key=lambda x: x[1])
+	source.sort(key=lambda x: x[0])
+	return source 
+
 def NewPoint(source):
     return [source[0],source[1],source[2],False,None,None,[],[],None,[]]
           #[x,y,z,circumcenter,cw,ccw,related,sources,error,consumed]
@@ -121,4 +132,4 @@ def recenter(points):
         for source in point[7]:
             error += wdistance(source,point)
             
-        point[8] = error/float(len(points[7]))
+        point[8] = error

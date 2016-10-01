@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 """
 Created on Wed Sep 28 13:45:34 2016
 
@@ -8,7 +8,7 @@ Created on Wed Sep 28 13:45:34 2016
 from shape import wdistance
 
 def cell_merge(points):
-	for i in xrange(1):
+	for i in xrange(10):
 		
 		best = get_best(points)		
 		
@@ -38,7 +38,7 @@ def merge_test(p1,p2):
     n1 = t*p1[1] + (1-t)*p2[1]
     d  = p1[2] + p2[2]
         	
-    point = [n0, n1, d/2]
+    point = [n0, n1, d]
 
     error = 0
     for source in p1[7]:
@@ -46,7 +46,7 @@ def merge_test(p1,p2):
     for source in p2[7]:
         error += wdistance(source,point)
         
-    return point,error/float(len(p1[7])+len(p2[7]))
+    return point,error
 	
 ###############################################################################
 def do_merge(p,r,newp,newerr,points):
@@ -57,16 +57,6 @@ def do_merge(p,r,newp,newerr,points):
      
     r[0][6] = False
         	
-         
-    for rel in r[1][6]:
-        if (( not rel[1][0] == p[0]) and ( not rel[1][1] == p[1])) and (( not rel[1][0] == q[0]) and ( not rel[1][1] == q[1]) for q in p[9]) and (rel[0][6] == True):
-            p[6].append(rel)
-        else:
-            rel[0][6] = False
-        for r2 in rel[1][6]:
-            if (r2[1][0] == rel[1][0]) and (r2[1][1] == rel[1][1]):
-                r2[1] = p
-     
     p[7] += r[1][7]
     p[8] = newerr		
     
@@ -76,3 +66,16 @@ def do_merge(p,r,newp,newerr,points):
     for i in xrange(len(points)):
         if (points[i][0] == r[1][0]) and (points[i][1] == r[1][1]):
             points[i] = p
+         
+    for rel in r[1][6]:
+        if (( not rel[1][0] == p[0]) and ( not rel[1][1] == p[1])) and (rel[0][6] == True):
+            p[6].append(rel)
+        else:
+            rel[0][6] = False
+        for r2 in rel[1][6]:
+            if (r2[1][0] == rel[1][0]) and (r2[1][1] == rel[1][1]):
+                r2[1] = p
+            for q in p[9]:
+                if (r2[1][0] == q[0]) and (r2[1][1] == q[1]):
+                    r2[1] = p     
+    
