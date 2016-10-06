@@ -6,9 +6,11 @@ Created on Wed Sep 28 13:45:34 2016
 """
 
 from shape import error
+from numbapro import jit
 
-def cell_merge(points):
-    for i in xrange(20):
+#@jit
+def cell_merge(points,err):
+    while(True):
         
         best = get_best(points)	
         
@@ -22,10 +24,12 @@ def cell_merge(points):
             if p[10] == False:
                 e += p[8]
                 p[10] = True
-        print e
+        #print e
         for p in points:
             p[10] = False
 		
+        if e > err:
+            break
 ###############################################################################
 def get_best(points):
     best = [None, None, None, None]
