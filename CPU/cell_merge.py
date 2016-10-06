@@ -8,12 +8,23 @@ Created on Wed Sep 28 13:45:34 2016
 from shape import error
 
 def cell_merge(points):
-	for i in xrange(1):
-		
-		best = get_best(points)		
-		
-		do_merge(best[0], best[1], best[2], best[3], points)
-		
+    for i in xrange(20):
+        
+        best = get_best(points)	
+        
+        if best[0] == None:
+            print "Tesselation now singluar"
+            break
+        do_merge(best[0], best[1], best[2], best[3], points)
+        
+        e = 0
+        for p in points:
+            if p[10] == False:
+                e += p[8]
+                p[10] = True
+        print e
+        for p in points:
+            p[10] = False
 		
 ###############################################################################
 def get_best(points):
@@ -36,11 +47,7 @@ def merge_test(p1,p2):
     t = p1[2]/(p1[2]+p2[2])
     n0 = t*p1[0] + (1-t)*p2[0]
     n1 = t*p1[1] + (1-t)*p2[1]
-    d = None
-    if p1[2] > p2[2]:
-        d = p1[2]
-    else:
-        d = p2[2]
+    d = p1[2] + p2[2]
         	
     point = [n0, n1, d]
 
