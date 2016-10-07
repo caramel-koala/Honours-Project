@@ -19,8 +19,8 @@ def source_gen(stellar, threshold):
 	return source 
 
 def NewPoint(source):
-    return [source[0],source[1],source[2],False,None,None,[],[],None,[],False]
-          #[x,y,z,circumcenter,cw,ccw,related,sources,error,consumed,error_counted]
+    return [source[0],source[1],source[2],False,None,None,[],[],None,[]]
+          #[x,y,z,circumcenter,cw,ccw,related,sources,error,consumed]
 
 def NewLine(p1,p2):
     return [p1,p2,None,None,None,[],True]

@@ -6,10 +6,14 @@ Created on Wed Sep 28 13:45:34 2016
 """
 
 from shape import error
-from numbapro import jit
+#from numbapro import jit
 
 #@jit
 def cell_merge(points,err):
+    e = 0
+    for p in points:
+        e += p[8]
+    
     while(True):
         
         best = get_best(points)	
@@ -17,22 +21,18 @@ def cell_merge(points,err):
         if best[0] == None:
             print "Tesselation now singluar"
             break
-        do_merge(best[0], best[1], best[2], best[3], points)
         
-        e = 0
-        for p in points:
-            if p[10] == False:
-                e += p[8]
-                p[10] = True
-        #print e
-        for p in points:
-            p[10] = False
-		
-        if e > err:
+        if best[4]+e > err:
+            print "Merge criteria met"
+            print "Final Error: {0}".format(e)
             break
+        else:
+            e += best[4]
+        
+        do_merge(best[0], best[1], best[2], best[3], points)
 ###############################################################################
 def get_best(points):
-    best = [None, None, None, None]
+    best = [None, None, None, None, None]
     best_delta = 99999999999
     for p in points:
          for r in p[6]:
@@ -41,7 +41,7 @@ def get_best(points):
 			delta = newerr - (p[8] + r[1][8])
 			if delta < best_delta:
 				best_delta = delta
-				best = [p,r,newp,newerr]
+				best = [p,r,newp,newerr, delta]
 
     return best
 			
