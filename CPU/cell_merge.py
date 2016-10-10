@@ -6,7 +6,7 @@ Created on Wed Sep 28 13:45:34 2016
 """
 
 from shape import error
-#from numbapro import jit
+from numbapro import vectorize, cuda
 
 #@jit
 def cell_merge(points,err):
@@ -93,4 +93,30 @@ def do_merge(p,r,newp,newerr,points):
             for q in p[9]:
                 if (r2[1][0] == q[0]) and (r2[1][1] == q[1]):
                     r2[1] = p     
+###############################################################################
+def d_get_best(points):
+    test = [[None, None, None, None, None]]*len(points)
+    d_best_cell(test,points)
+         
+###############################################################################
+def d_best_cell(test,points):
+    best = [None, None, None, None, None]
+    best_delta = 99999999999
     
+    for r in p[6]:
+             if r[0][6] == True:
+			newp, newerr = merge_test(p,r[1])
+			delta = newerr - (p[8] + r[1][8])
+			if delta < best_delta:
+				best_delta = delta
+				best = [p,r,newp,newerr, delta]
+
+    best
+###############################################################################
+@cuda.reduce
+def d_best_reduce(a,b):
+    if a[4] < b[4]:
+        return a
+    else:
+        return b
+###############################################################################

@@ -19,11 +19,11 @@ planesize = [600,600]
 #generate list of galaxies
 sd = 3000 #standard deviation
 sources = []
-for i in range(1000):
+for i in range(20):
     sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,sd))))
 
 #objects above the threshold seleected
-stellars = source_gen(sources,sd)
+stellars = source_gen(sources,0)
 
 #space defined
 space = (NewLine((0,0,0),(planesize[0],0,0)),NewLine((0,0,0),(0,planesize[1],0)),NewLine((planesize[0],0,0),(planesize[0],planesize[1],0)),NewLine((0,planesize[1],0),(planesize[0],planesize[1],0)))
