@@ -12,7 +12,7 @@ def gen_cells(points,size,space):
     cells   = []
     
     for point in points:
-        center  = [point[0],point[1],point[2]]
+        center  = (point[0],point[1],point[2])
         lines   = []
         eps     = []
         #filters the list of lines to get only those within the space

@@ -11,6 +11,7 @@ from voronoi import Voronoi
 import gen_cells as gc
 import tesselvisual as tv
 from cell_merge import cell_merge
+from gpu_merge import gpu_merge
 import time
 
 #define the size of the plane for generality
@@ -44,13 +45,15 @@ tv.tesselvisual(cells,sources)
 
 e = sd*np.sqrt(planesize[0]*planesize[1])*len(sources)
 
-start = time.time()
-cell_merge(stellars,e)
-end = time.time()
+g = gpu_merge(cells,stellars,e)
 
-print end - start
-  
-cells = gc.gen_cells(stellars,planesize,space)
+#start = time.time()
+#cell_merge(stellars,e)
+#end = time.time()
+#
+#print end - start
+#  
+#cells = gc.gen_cells(stellars,planesize,space)
 
 #plot results
 tv.tesselvisual(cells,sources)
