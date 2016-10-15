@@ -32,7 +32,7 @@ def tesselvisual(arr_cells, arr_obj):
     
     p = PatchCollection(polys, cmap=matplotlib.cm.jet, alpha=0.4)
 
-    colors = 100*np.random.rand(len(polys))
+    colors = 255
     p.set_array(np.array(colors))
     
     ax = plt.subplot()
@@ -41,12 +41,12 @@ def tesselvisual(arr_cells, arr_obj):
     
     
     for G in arr_obj:
-        plt.scatter(G[0],G[1],c='g',s=G[2]/100)
+        plt.scatter(G[0],G[1],c='w',marker='o',s=G[2]/100)
     
     for c in centres:
-         plt.scatter(c[0],c[1],c='b',marker='+',s=100)
+         plt.scatter(c[0],c[1],c='k',marker='*',s=100)
          
     for r in rcentres:
-         plt.scatter(r[0],r[1],c='r',marker='+',s=100)
+         plt.scatter(r[0],r[1],c='k',marker='*',s=100)
     
     plt.show
