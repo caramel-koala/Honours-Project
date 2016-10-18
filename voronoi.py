@@ -7,7 +7,6 @@ Created on Wed Sep 21 10:29:03 2016
 
 import shape as sh
 from merge import merge
-from operator import itemgetter
 
 def Voronoi(points,range_points):
 	if (range_points[1]-range_points[0]+1) == 2:
@@ -93,7 +92,8 @@ def Voronoi(points,range_points):
 			lines[2][5].append(lines[1])
 			
 		else:
-			mid.sort(key = lambda s: itemgetter(1,2)(s[0]))
+			mid.sort(key = lambda s: s[1])
+			mid.sort(key = lambda s: s[0])
 			t = mid[1][1]
 			del_line = lines[t]
 			for i in range(lower,upper+1):

@@ -8,8 +8,8 @@ Created on Wed Sep 21 10:06:38 2016
 import numpy as np
 from shape import NewLine, recenter, source_to_cell, source_gen
 from voronoi import Voronoi
-#import gen_cells as gc
-#import tesselvisual as tv
+import gen_cells as gc
+import tesselvisual as tv
 #from cell_merge import cell_merge
 from gpu_merge import gpu_merge
 #import time
@@ -41,10 +41,10 @@ Voronoi(stellars,(0,len(stellars)-1))
 source_to_cell(stellars,sources,planesize)
 recenter(stellars)
 
-#cells = gc.gen_cells(stellars,planesize,space)
-#
-##plot results
-#tv.tesselvisual(cells,sources)
+cells = gc.gen_cells(stellars,planesize,space)
+
+#plot results
+tv.tesselvisual(cells,sources)
 
 #error threshold
 
