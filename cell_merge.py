@@ -14,7 +14,7 @@ def cell_merge(points,err):
     
     while(True):
         
-        best = get_best(points)	
+        best = get_best(points,err)	
         
         if best[0] == None:
             print "Tesselation now singluar"
@@ -29,9 +29,9 @@ def cell_merge(points,err):
         
         do_merge(best[0], best[1], best[2], best[3], points)
 ###############################################################################
-def get_best(points):
+def get_best(points,err):
     best = [None, None, None, None, None]
-    best_delta = 99999999999
+    best_delta = err
     for p in points:
          for r in p[6]:
              if r[0][6] == True:
@@ -64,10 +64,6 @@ def merge_test(p1,p2):
 ###############################################################################
 def do_merge(p,r,newp,newerr,points):
 	
-    p[0] = newp[0]
-    p[1] = newp[1]	
-    p[2] = newp[2]
-     
     r[0][6] = False
         	
     p[7] += r[1][7]
@@ -81,14 +77,19 @@ def do_merge(p,r,newp,newerr,points):
             points[i] = p
          
     for rel in r[1][6]:
-        if (( not rel[1][0] == p[0]) and ( not rel[1][1] == p[1])) and (rel[0][6] == True):
+        if ( not rel[1][0] == p[0]) and ( not rel[1][1] == p[1]) and (rel[0][6] == True):
             p[6].append(rel)
+            for r2 in rel[1][6]:
+                for q in p[9]:
+                    if (r2[1][0] == q[0]) and (r2[1][1] == q[1]):
+                        r2[1] = p  
+                if (r2[1][0] == rel[1][0]) and (r2[1][1] == rel[1][1]):
+                    r2[1] = p
         else:
             rel[0][6] = False
-        for r2 in rel[1][6]:
-            if (r2[1][0] == rel[1][0]) and (r2[1][1] == rel[1][1]):
-                r2[1] = p
-            for q in p[9]:
-                if (r2[1][0] == q[0]) and (r2[1][1] == q[1]):
-                    r2[1] = p     
+           
+   
+    p[0] = newp[0]
+    p[1] = newp[1]	
+    p[2] = newp[2]
 ###############################################################################
