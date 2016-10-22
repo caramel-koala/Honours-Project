@@ -9,11 +9,12 @@ from shape import error
 
 def cell_merge(points,err):
     e = 0
+    a_e = []
     for p in points:
         e += p[8]
     
     while(True):
-        
+        a_e.append(e)
         best = get_best(points,err)	
         
         if best[0] == None:
@@ -28,6 +29,8 @@ def cell_merge(points,err):
             e += best[4]
         
         do_merge(best[0], best[1], best[2], best[3], points)
+        
+        return a_e
 ###############################################################################
 def get_best(points,err):
     best = [None, None, None, None, None]

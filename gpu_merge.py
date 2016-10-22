@@ -16,7 +16,7 @@ def gpu_merge(points,err,numobj):
     sources = np.zeros((len(points),numobj,3))
     
     e = 0 #global error
-    
+    a_e = []
     #populate arrays for gpu
     for i,p in enumerate(points): 
         centre[i,0] = p[0]
@@ -56,22 +56,26 @@ def gpu_merge(points,err,numobj):
         
         results = d_results.copy_to_host()
         
+        a_e.append(e)
+        
         best = np.array([0,0,0,0,0,0,err])
         for r in range(results.shape[0]):
             if results[r,6] < best[6]:
                 for q in range(7):
                     best[q] = results[r,q]
-        #print best       
+        
         if best[6]+e > err:
             print "Merge criteria met"
             print "Final Error: {0}".format(e)
             break
         else:
             e += best[6]
-    
+
         h_do_merge(best,points)
         d_best = cuda.to_device(best)
         d_do_merge[g,b](d_best,d_centre,d_related,d_sources,p,numobj,err)
+        
+    return(a_e)
 ###############################################################################
 @cuda.jit
 def d_get_best(centre,p,results,related,sources,err,n):
