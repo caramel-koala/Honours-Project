@@ -44,6 +44,44 @@ def test_time():
         
     return(results)
     
+def test_gpu():
+    planesize = [600,600]
+    
+    tests = [50,100,300,500,800,1000]
+    
+    sd = 3000
+    
+    for i in range(len(tests)):
+        #generate list of galaxies
+        sources = []
+        for j in range(tests[i]):
+            sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,sd))))
+        
+        #error threshold
+        e = sd*np.sqrt(planesize[0]*planesize[1])*tests[i]
+        
+        tessellate(sources,0,e,1,planesize)
+        
+def test_gpu_max():
+    planesize = [600,600]
+    
+    sd = 3000
+    
+    i = 1000
+    while True:
+        print i
+        #generate list of galaxies
+        sources = []
+        for j in range(i):
+            sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,sd))))
+        
+        #error threshold
+        e = sd*np.sqrt(planesize[0]*planesize[1])*i
+        
+        tessellate(sources,0,e,1,planesize)
+        
+        i+=10
+    
 def test_error():
     
     planesize = [600,600]

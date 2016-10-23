@@ -7,9 +7,11 @@ Created on Tue Oct 11 11:53:51 2016
 """
 from numba import cuda, float32
 import numpy as np
+import time
 ###############################################################################
 def gpu_merge(points,err,numobj):
     
+    start = time.time()
     #reshape points for gpu
     centre = np.zeros((len(points),4))
     related = np.zeros((len(points),len(points)),dtype='int32')
@@ -37,19 +39,24 @@ def gpu_merge(points,err,numobj):
             sources[i,j,0] = s[0]
             sources[i,j,1] = s[1]
             sources[i,j,2] = s[2]
-            
-
+    end = time.time()   
+    print 'reshape time: {0}'.format(end-start)
+    
+    start = time.time()
     #transfer arrays to gpu
     d_results = cuda.device_array((len(points),7),np.float32)
     d_centre = cuda.to_device(centre)
     d_related = cuda.to_device(related)
     d_sources = cuda.to_device(sources)
-    
+    end = time.time()
+    print 'transfer time: {0}'.format(end-start)
+     
     p = len(points)
     #get grid and block sizes
     b = 32
     g = len(points)/b + 1
         
+    start = time.time()
     while(True):
         #call kernel
         d_get_best[g,b](d_centre,p,d_results,d_related,d_sources,err,numobj)
@@ -74,7 +81,9 @@ def gpu_merge(points,err,numobj):
         h_do_merge(best,points)
         d_best = cuda.to_device(best)
         d_do_merge[g,b](d_best,d_centre,d_related,d_sources,p,numobj,err)
-        
+    end = time.time()   
+    print 'compute time: {0}'.format(end-start)
+    
     return(a_e)
 ###############################################################################
 @cuda.jit
