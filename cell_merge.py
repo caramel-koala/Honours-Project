@@ -30,7 +30,7 @@ def cell_merge(points,err):
         
         do_merge(best[0], best[1], best[2], best[3], points)
         
-        return a_e
+    return a_e
 ###############################################################################
 def get_best(points,err):
     best = [None, None, None, None, None]

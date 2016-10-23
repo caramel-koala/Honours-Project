@@ -10,7 +10,7 @@ import gen_cells as gc
 import tesselvisual as tv
 import numpy as np
 from tessellate import tessellate
-
+from shape import NewLine
 
 def test_time():
     #define the size of the plane for generality
@@ -61,6 +61,31 @@ def test_gpu():
         e = sd*np.sqrt(planesize[0]*planesize[1])*tests[i]
         
         tessellate(sources,0,e,1,planesize)
+        
+def test_diff():
+    planesize = [600,600]
+    space = (((0,0),(0,planesize[1])),((0,planesize[1]),(planesize[0],planesize[1])), ((planesize[0],planesize[1]), (planesize[0],0)), ((planesize[0],0), (0,0)))
+    
+    sd = 3000
+    
+    sources = []
+    for j in range(100):
+        sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,sd))))
+    
+    #error threshold
+    e = sd*np.sqrt(planesize[0]*planesize[1])*100
+    
+    res = tessellate(sources,0,e,1,planesize)
+    
+    cells = gc.gen_cells(res[0],planesize,space)
+    
+    tv.tesselvisual(cells,sources)
+    
+    res = tessellate(sources,0,e,0,planesize)
+    
+    cells = gc.gen_cells(res[0],planesize,space)
+    
+    tv.tesselvisual(cells,sources)
         
 def test_gpu_max():
     planesize = [600,600]

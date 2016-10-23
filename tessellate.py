@@ -27,16 +27,17 @@ def tessellate(sources,threshold,error,host,planesize):
     for p in stellars:
         e += p[8]
 
-    if (host == 1):
-        #gpu merge
-        start = time.time()
-        e = gpu_merge(stellars,error,len(sources))
-        end = time.time()
-        return (stellars,end - start,e)
-    elif (host == 0):    
-        #cpu merge
+    if (host == 0):    
+        print 'cpu merge'
         start = time.time()
         e = cell_merge(stellars,error)
+        end = time.time()
+        return (stellars,end - start,e)
+
+    if (host == 1):
+        print 'gpu merge'
+        start = time.time()
+        e = gpu_merge(stellars,error,len(sources))
         end = time.time()
         return (stellars,end - start,e)
         
