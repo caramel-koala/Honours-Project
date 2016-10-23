@@ -10,7 +10,7 @@ import numpy as np
 import time
 ###############################################################################
 def gpu_merge(points,err,numobj):
-    
+    cuda.profile_start()
     start = time.time()
     #reshape points for gpu
     centre = np.zeros((len(points),4))
@@ -83,7 +83,7 @@ def gpu_merge(points,err,numobj):
         d_do_merge[g,b](d_best,d_centre,d_related,d_sources,p,numobj,err)
     end = time.time()   
     print 'compute time: {0}'.format(end-start)
-    
+    cuda.profile_stop()
     return(a_e)
 ###############################################################################
 @cuda.jit

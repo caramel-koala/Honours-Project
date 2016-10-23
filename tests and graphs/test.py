@@ -10,7 +10,6 @@ import gen_cells as gc
 import tesselvisual as tv
 import numpy as np
 from tessellate import tessellate
-from shape import NewLine
 
 def test_time():
     #define the size of the plane for generality
