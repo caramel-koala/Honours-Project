@@ -46,7 +46,7 @@ def test_time():
 def test_gpu():
     planesize = [600,600]
     
-    tests = [50,100,300,500,800,1000]
+    tests = [10,50,100,300,500,800,1000]
     
     sd = 3000
     
@@ -68,7 +68,7 @@ def test_diff():
     sd = 3000
     
     sources = []
-    for j in range(100):
+    for j in range(10):
         sources.append((np.random.random()*planesize[0],np.random.random()*planesize[1],np.abs(np.random.normal(0,sd))))
     
     #error threshold
@@ -76,11 +76,15 @@ def test_diff():
     
     res = tessellate(sources,0,e,1,planesize)
     
+    print res[1]
+    
     cells = gc.gen_cells(res[0],planesize,space)
     
     tv.tesselvisual(cells,sources)
     
     res = tessellate(sources,0,e,0,planesize)
+    
+    print res[1]
     
     cells = gc.gen_cells(res[0],planesize,space)
     
@@ -118,12 +122,12 @@ def test_error():
     
     sources.sort(key=lambda x: x[2])
     
-    e = sd*np.sqrt(planesize[0]*planesize[1])*1000
+    e = sd*np.sqrt(planesize[0]*planesize[1])*100000
     
     res = tessellate(sources,0,e,1,planesize)
     
     res2 = []
-    for i in range(950):
+    for i in range(998):
         result = tessellate(sources,sources[i][2],e,-1,planesize)
         
         res2.append(result[2])

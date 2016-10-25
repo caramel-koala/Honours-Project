@@ -13,9 +13,9 @@ def gpu_merge(points,err,numobj):
     cuda.profile_start()
     start = time.time()
     #reshape points for gpu
-    centre = np.zeros((len(points),4))
+    centre = np.zeros((len(points),4),dtype='float32')
     related = np.zeros((len(points),len(points)),dtype='int32')
-    sources = np.zeros((len(points),numobj,3))
+    sources = np.zeros((len(points),numobj,3),dtype='float32')
     
     e = 0 #global error
     a_e = []

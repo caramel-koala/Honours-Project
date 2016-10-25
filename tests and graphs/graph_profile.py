@@ -13,7 +13,7 @@ f = open('gpu_profile.txt','r')
 
 data = f.readlines()
 
-tests = [50,100,300,500,800,1000]
+tests = [10,50,100,300,500,800,1000]
 
 su = np.zeros((4,len(tests)))
 
