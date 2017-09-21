@@ -3,6 +3,8 @@
 Created on Wed Sep 21 11:20:07 2016
 
 @author: caramelkoala
+
+Performs the conquer part of the D&C, clips lines between overlapping facets so they become more stable
 """
 
 import shape as sh
@@ -17,7 +19,7 @@ def merge(points,VDL,VDR):
     SG = upper_tangent
     px = SG[0]
     py = SG[1]
-				
+
     #p1 of upper_tangent belongs to VDL, and p2 belongs to VDR
     SG_bisector = sh.biSector(SG[0],SG[1])
     SG_bisector[2] = SG[0]
@@ -53,10 +55,10 @@ def merge(points,VDL,VDR):
 
         side = None
         ray = None
-		
+
         #with biSector of pyz2 first,that is,VDR first
         if result_l is not None and result_r is not None:
-            if abs(result_l[0][0]-result_r[0][0]) <= 0.05 and abs(result_l[0][1]-result_r[0][1]) <= 0.05:
+            if  abs(result_l[0][0]-result_r[0][0]) <= 0.05 and abs(result_l[0][1]-result_r[0][1]) <= 0.05:
                 SG = sh.NewLine(result_l[1],result_r[1]);
                 circumcenter = result_l[0]
                 ray = (result_l[2],result_r[2])
@@ -82,7 +84,6 @@ def merge(points,VDL,VDR):
             elif result_r is not None and result_l is None:
                 SG = sh.NewLine(px,result_r[1])
                 circumcenter = result_r[0]
-																
                 ray = result_r[2]
                 side = 'right'
             else:
@@ -125,7 +126,6 @@ def merge(points,VDL,VDR):
         firsttime = False
         #the end of while loop for HP
 
-
     if SG_bisector[0][1] > SG_bisector[1][1]:
         SG_bisector[0],SG_bisector[1] = SG_bisector[1],SG_bisector[0]
     elif abs((SG_bisector[0][1])-(SG_bisector[1][1])) <= 0.00005:
@@ -150,7 +150,7 @@ def merge(points,VDL,VDR):
         SG_bisector = t[1]
         side = t[2]
         discard_edges(ray,circumcenter,side,SG_bisector, ray_list)
-
+    
     #add new connected line
     s = 0
     for t in range(0,len(HP)-1):
@@ -187,6 +187,7 @@ def merge(points,VDL,VDR):
     lines.append(HP)
 
     range_points = (VDL[1][0],VDR[1][1])
+    
     return [lines,range_points,sh.amc(points,range_points)]
 ###############################################################################
 def find_tangent(points,VDL,VDR):
@@ -214,7 +215,7 @@ def find_tangent(points,VDL,VDR):
     lower_tangent = sh.NewLine(pl,pr)
 
     return (upper_tangent,lower_tangent)
-###############################################################################				
+###############################################################################
 def discard_edges(ray,circumcenter,side,SG_bisector, ray_list):
 	if side == 'right':
 		#clear the edges extend to the left of HP
@@ -261,7 +262,7 @@ def discard_edges(ray,circumcenter,side,SG_bisector, ray_list):
 			if ray[1][1][3] == True:
 				recursive_discard_edge(ray[1],circumcenter,ray[1][1],'right', ray_list)
 			ray[1][1] = circumcenter
-###############################################################################										
+###############################################################################
 def recursive_discard_edge(ray,other_point,base_point,side, ray_list):
 	#want to delete left remaining line
 	for candidate in ray[5]:
@@ -300,7 +301,7 @@ def nextPoint(pool,SG_bisector):
 				else:
 					if t[0][1] <= ans[0][1]:
 						ans = t
-	return ans																
+	return ans
 ###############################################################################
 def isupper_tangent(pl,pr,pos):
     if pos == 'left':

@@ -4,6 +4,7 @@
 Created on Tue Oct 11 11:53:51 2016
 
 @author: caramelkoala
+Performs the merge operation on the GPU (must be cuda)
 """
 from numba import cuda, float32
 import numpy as np
@@ -135,7 +136,7 @@ def d_merge_test(x,r,centre,sources,test,n):
     test[4] = r
 ###############################################################################
 def h_do_merge(best,points):
-	
+#executes the merge on the host (cpu) so the data reflects what has happened on the GPU
     p = points[(int)(best[5])]
     r = points[(int)(best[4])]
     
@@ -151,10 +152,6 @@ def h_do_merge(best,points):
     p[9].append(r)
   
     
-    for i in xrange(len(points)):
-        if (points[i][0] == r[0]) and (points[i][1] == r[1]):
-            points[i] = p
-    
     for rel in r[6]:
         if ( not rel[1][0] == p[0]) and ( not rel[1][1] == p[1]) and (rel[0][6] == True):
             p[6].append(rel)
@@ -166,6 +163,11 @@ def h_do_merge(best,points):
                     r2[1] = p
         else:
             rel[0][6] = False
+
+    #remove r from the list of sources
+    for point in points:
+        if (point[0] == r[1][0]) and (point[1] == r[1][1]):
+            points.remove(point)
 
     p[0] = best[0]
     p[1] = best[1]	

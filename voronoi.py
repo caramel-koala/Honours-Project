@@ -3,13 +3,27 @@
 Created on Wed Sep 21 10:29:03 2016
 
 @author: caramelkoala
+
+Performs the divide part of the divide and conquer
 """
 
 import shape as sh
 from merge import merge
 
 def Voronoi(points,range_points):
-	if (range_points[1]-range_points[0]+1) == 2:
+	"""
+	points: complete list of points to be used for tessellation
+	range_points: the range of points over which to generate a voronoi
+  
+  return: A voronoi structure (list of lists) containing a series of centres, lines and the connections between them
+	"""
+# if Voronoi is singular, send it back with the entire plane as it's facet
+	if (range_points[0]==range_points[1]):
+		print('Single element Voronoi, no tesellation to be done')
+		return [None, range_points,sh.amc(points,range_points)]
+     
+# If Voronoi has two elements return the plane divided in two based on the element's position
+	elif (range_points[1]-range_points[0]+1) == 2:
 		lower = range_points[0]
 		upper = range_points[1]
 		line = [sh.biSector(points[lower],points[upper])]
@@ -21,6 +35,7 @@ def Voronoi(points,range_points):
 		
 		return [line,range_points,sh.amc(points,range_points)]
 		
+# If the Voronoi has 3 elements, divide it in 3 and return the structure
 	elif (range_points[1]-range_points[0]+1) == 3:
 		lower = range_points[0]
 		upper = range_points[1]
@@ -35,7 +50,7 @@ def Voronoi(points,range_points):
 				points[j][6].append([lines[-1],points[i]])
 				lines[-1][2] = points[i]
 				lines[-1][3] = points[j]
-				mid.append((((points[i][0]+points[j][0])/2,(points[i][1]+points[j][1])/2),t))
+				mid.append(((float(points[i][0]+points[j][0])/2,float(points[i][1]+points[j][1])/2),t))
 				dis.append((t,(points[i][0]-points[j][0])**2+(points[i][1]-points[j][1])**2,sh.NewLine(points[i],points[j])))
 				t = t+1
 				
@@ -105,11 +120,12 @@ def Voronoi(points,range_points):
 			del lines[t]
 			
 		return [lines,range_points,sh.amc(points,range_points)]
+
+# Finally, if there are more than 3 elements, divide the set in two, recursively call the Voronoi creator, merge the two Voronoi's and return the completed structure
 	else:
 		mid = int((range_points[1]+range_points[0])/2)
 		VDL = Voronoi(points,(range_points[0],mid))
 
 		VDR = Voronoi(points,(mid+1,range_points[1]))
-
 		merge_vd = merge(points,VDL,VDR)
 		return merge_vd
